@@ -11,9 +11,10 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import edu.sharif.timesync.R;
+import edu.sharif.timesync.groupListMenu.GroupListItem;
 import edu.sharif.timesync.groupListMenu.GroupListMenuActivity;
 
-public class GroupDetailedMenuActivity extends AppCompatActivity implements UsernameDialog.UsernameDialogListener {
+public class GroupDetailedMenuActivity extends AppCompatActivity implements UsernameDialog.UsernameDialogListener{
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -42,4 +43,6 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
         // TODO add user!
         Toast.makeText(getBaseContext(), "ADDED " + username, Toast.LENGTH_SHORT).show();
     }
+
+
 }
