@@ -21,9 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".meeting.MeetingActivity">
-        </activity>
+        <activity android:name=".meeting.MeetingActivity"/>
+        <activity android:name=".groupListMenu.GroupListMenuActivity"/>
+        <activity android:name=".groupDetailedMenu.GroupDetailedMenuActivity"/>
     </application>
 
 </manifest>
