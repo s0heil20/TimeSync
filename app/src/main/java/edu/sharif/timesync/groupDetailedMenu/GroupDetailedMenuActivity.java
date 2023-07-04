@@ -2,6 +2,7 @@ package edu.sharif.timesync.groupDetailedMenu;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -12,7 +13,7 @@ import com.google.android.material.tabs.TabLayout;
 import edu.sharif.timesync.R;
 import edu.sharif.timesync.groupListMenu.GroupListMenuActivity;
 
-public class GroupDetailedMenuActivity extends AppCompatActivity {
+public class GroupDetailedMenuActivity extends AppCompatActivity implements UsernameDialog.UsernameDialogListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -34,5 +35,11 @@ public class GroupDetailedMenuActivity extends AppCompatActivity {
         viewPager.setAdapter(groupDetailedMenuAdapter);
 
         // startActivity(new Intent(this, GroupListMenuActivity.class));
+    }
+
+    @Override
+    public void addUser(String username) {
+        // TODO add user!
+        Toast.makeText(getBaseContext(), "ADDED " + username, Toast.LENGTH_SHORT).show();
     }
 }
