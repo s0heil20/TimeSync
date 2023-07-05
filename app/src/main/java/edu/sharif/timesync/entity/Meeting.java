@@ -6,16 +6,22 @@ import java.util.HashMap;
 
 public class Meeting {
     private int meetingId;
+    private String name;
     private Group group;
     private ArrayList<Date> candidateTimes;
 
     private HashMap<String, ArrayList<Date>> availableTimesForUsers;
 
-    public Meeting(Group group, int meetingId, ArrayList<Date> candidateTimes) {
-        this.group = group;
+    public Meeting(int meetingId, String name, Group group, ArrayList<Date> candidateTimes, HashMap<String, ArrayList<Date>> availableTimesForUsers) {
         this.meetingId = meetingId;
+        this.name = name;
+        this.group = group;
         this.candidateTimes = candidateTimes;
-        this.availableTimesForUsers = new HashMap<>();
+        this.availableTimesForUsers = availableTimesForUsers;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Group getGroup() {
@@ -30,8 +36,13 @@ public class Meeting {
         return candidateTimes;
     }
 
+
     public void setGroup(Group group) {
         this.group = group;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setMeetingId(int meetingId) {
