@@ -17,6 +17,9 @@ public class SQLDatabaseManager extends SQLiteOpenHelper {
 
     private final AssignedJobDatabaseManager assignedJobDatabaseManager;
     private final MeetingDatabaseManager meetingDatabaseManager;
+
+    private final MeetingChoiceDatabaseManager meetingChoiceDatabaseManager;
+    private final MeetingCandidateTimeDatabaseManager meetingCandidateTimeDatabaseManager;
     private final TimeSpentDatabaseManager timeSpentDatabaseManager;
     private final GroupJobMappingDatabaseManager groupJobMappingDatabaseManager;
 
@@ -28,6 +31,8 @@ public class SQLDatabaseManager extends SQLiteOpenHelper {
         groupUserMappingDatabaseManager = GroupUserMappingDatabaseManager.instanceOfGroupUserMappingDatabaseManager(this);
         assignedJobDatabaseManager = AssignedJobDatabaseManager.instanceOfJobDatabaseManager(this);
         meetingDatabaseManager = MeetingDatabaseManager.instanceOfMeetingDatabaseManager(this);
+        meetingChoiceDatabaseManager = MeetingChoiceDatabaseManager.instanceOfMeetingChoiceDatabaseManager(this);
+        meetingCandidateTimeDatabaseManager = MeetingCandidateTimeDatabaseManager.instanceOfMeetingCandidateDatabaseManager(this);
         timeSpentDatabaseManager = TimeSpentDatabaseManager.instanceOfGroupDatabaseManager(this);
         groupJobMappingDatabaseManager = GroupJobMappingDatabaseManager.instanceOfGroupJobMappingDatabaseManager(this);
     }
@@ -55,6 +60,14 @@ public class SQLDatabaseManager extends SQLiteOpenHelper {
         return meetingDatabaseManager;
     }
 
+    public MeetingChoiceDatabaseManager getMeetingChoiceDatabaseManager() {
+        return meetingChoiceDatabaseManager;
+    }
+
+    public MeetingCandidateTimeDatabaseManager getMeetingCandidateTimeDatabaseManager() {
+        return meetingCandidateTimeDatabaseManager;
+    }
+
     public TimeSpentDatabaseManager getTimeSpentDatabaseManager() {
         return timeSpentDatabaseManager;
     }
@@ -69,6 +82,8 @@ public class SQLDatabaseManager extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(groupUserMappingDatabaseManager.createTableString());
         sqLiteDatabase.execSQL(assignedJobDatabaseManager.createTableString());
         sqLiteDatabase.execSQL(meetingDatabaseManager.createTableString());
+        sqLiteDatabase.execSQL(meetingChoiceDatabaseManager.createTableString());
+        sqLiteDatabase.execSQL(meetingChoiceDatabaseManager.createTableString());
         sqLiteDatabase.execSQL(timeSpentDatabaseManager.createTableString());
         sqLiteDatabase.execSQL(groupJobMappingDatabaseManager.createTableString());
     }
@@ -79,6 +94,8 @@ public class SQLDatabaseManager extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + groupUserMappingDatabaseManager.getTableName());
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + assignedJobDatabaseManager.getTableName());
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + meetingDatabaseManager.getTableName());
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + meetingChoiceDatabaseManager.getTableName());
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + meetingCandidateTimeDatabaseManager.getTableName());
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + timeSpentDatabaseManager.getTableName());
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + groupJobMappingDatabaseManager.getTableName());
         onCreate(sqLiteDatabase);
