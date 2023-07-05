@@ -1,6 +1,12 @@
 package edu.sharif.timesync.database;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import edu.sharif.timesync.entity.Job;
+import edu.sharif.timesync.entity.TimeSpent;
+
 public class TimeSpentDatabaseManager {
     private static TimeSpentDatabaseManager timeSpentDatabaseManager;
     private static final String TABLE_NAME = "TimeSpentDB";
@@ -44,4 +50,21 @@ public class TimeSpentDatabaseManager {
     public String getTableName() {
         return TABLE_NAME;
     }
+
+    public void assignTimeSpentToJob(String jobId, String username, int minute, int hours){
+        return;
+    }
+
+    public ArrayList<TimeSpent> getAllTimeSpentOfWeekOfUser(String username) {
+        return null;
+    }
+
+    public TimeSpent getTimeSpentOnJobByUser(String jobId, String username){
+        return null;
+    }
+
+    public HashMap<Job, TimeSpent> getTimeSpentOnEachJobByUser(ArrayList<String> jobIds, String username){
+        return null;
+    }
+
 }

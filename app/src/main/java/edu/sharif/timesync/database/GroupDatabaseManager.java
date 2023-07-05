@@ -1,5 +1,9 @@
 package edu.sharif.timesync.database;
 
+import java.util.ArrayList;
+
+import edu.sharif.timesync.entity.Group;
+
 public class GroupDatabaseManager {
     private static GroupDatabaseManager groupDatabaseManager;
     private static final String TABLE_NAME = "GroupDB";
@@ -41,5 +45,17 @@ public class GroupDatabaseManager {
 
     public String getTableName() {
         return TABLE_NAME;
+    }
+
+    public ArrayList<Group> getGroupsByUsername(String username){
+        return null;
+    }
+
+    public ArrayList<Group> getGroupsOfLoggedInUser(){
+        return null;
+    }
+
+    public void addGroupByName(String name){
+        return;
     }
 }

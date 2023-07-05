@@ -1,6 +1,10 @@
 package edu.sharif.timesync.database;
 
 
+import java.util.ArrayList;
+
+import edu.sharif.timesync.entity.Job;
+
 public class JobDatabaseManager {
     private static JobDatabaseManager jobDatabaseManager;
     private static final String TABLE_NAME = "JobDB";
@@ -37,4 +41,13 @@ public class JobDatabaseManager {
     public String getTableName() {
         return TABLE_NAME;
     }
+
+    public void assignUsersToJobById(ArrayList<String> usernames, String jobId){
+
+    }
+
+    public ArrayList<Job> getJobsOfCurrentGroup() {
+        return null;
+    }
+
 }
