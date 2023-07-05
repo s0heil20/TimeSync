@@ -10,9 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import edu.sharif.timesync.R;
-import edu.sharif.timesync.groupDetailedMenu.jobs.JobListItem;
-import edu.sharif.timesync.groupDetailedMenu.jobs.JobsFragmentViewHolder;
-import edu.sharif.timesync.groupDetailedMenu.jobs.SelectJobsListItemInterface;
+
 
 public class MeetingFragmentAdapter extends RecyclerView.Adapter<MeetingFragmentViewHolder> {
     private Context context;
@@ -33,7 +31,7 @@ public class MeetingFragmentAdapter extends RecyclerView.Adapter<MeetingFragment
 
     @Override
     public void onBindViewHolder(MeetingFragmentViewHolder holder, int position) {
-        holder.meetingName.setText(items.get(position).getMeeting().getName());
+        holder.meetingName.setText(items.get(position).getName());
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

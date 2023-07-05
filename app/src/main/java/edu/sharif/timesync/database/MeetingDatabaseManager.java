@@ -4,6 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+
+import edu.sharif.timesync.entity.Meeting;
 import edu.sharif.timesync.entity.User;
 
 public class MeetingDatabaseManager {
@@ -75,12 +78,17 @@ public class MeetingDatabaseManager {
         String groupName = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getName();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(MEETING_ID_FIELD, meetingName);
+        contentValues.put(MEETING_NAME_FIELD, meetingName);
         contentValues.put(GROUP_NAME_FIELD, groupName);
         contentValues.put(IS_FINALIZED_FIELD, 0);
 
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
 
         return true;
+    }
+
+    public ArrayList<Meeting> getAllMeetingsOfCurrentGroup(){
+        // TODO
+        return null;
     }
 }

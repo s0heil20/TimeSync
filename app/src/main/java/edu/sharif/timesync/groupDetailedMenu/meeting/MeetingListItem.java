@@ -3,13 +3,13 @@ package edu.sharif.timesync.groupDetailedMenu.meeting;
 import edu.sharif.timesync.entity.Meeting;
 
 public class MeetingListItem {
-    private Meeting meeting;
+    private String name;
 
-    public MeetingListItem(Meeting meeting) {
-        this.meeting = meeting;
+    public MeetingListItem(String name) {
+        this.name = name;
     }
 
-    public Meeting getMeeting() {
-        return meeting;
+    public String getName() {
+        return name;
     }
 }

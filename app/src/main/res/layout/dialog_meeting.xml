@@ -7,10 +7,10 @@
 
 
     <EditText
-        android:id="@+id/jobEditText"
+        android:id="@+id/meetingEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Job name"
+        android:hint="Meeting Name"
         android:inputType="text"
         />
 
