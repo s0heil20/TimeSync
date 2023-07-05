@@ -40,7 +40,7 @@ public class UsersFragment extends Fragment  {
     public void onViewCreated(View view,Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
-        isLeader = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUsername() == sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername();
+        isLeader = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUsername().equals(sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername());
 
 
         recyclerView = view.findViewById(R.id.usersListRecyclerView);

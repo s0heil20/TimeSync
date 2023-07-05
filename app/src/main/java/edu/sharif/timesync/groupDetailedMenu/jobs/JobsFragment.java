@@ -50,8 +50,11 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
 
         configureFloatingActionButton(view);
 
-        // TODO!
-        addJobToRecyclerView(sqlDatabaseManager.getGroupJobMappingDatabaseManager().getJobsOfCurrentGroup());
+        if (isLeader) {
+            addJobToRecyclerView(sqlDatabaseManager.getGroupJobMappingDatabaseManager().getJobsOfCurrentGroup());
+        } else {
+            addJobToRecyclerView(sqlDatabaseManager.getGroupJobMappingDatabaseManager().getJobsOfCurrentLoggedInUser());
+        }
     }
 
     private void configureFloatingActionButton(View view) {
