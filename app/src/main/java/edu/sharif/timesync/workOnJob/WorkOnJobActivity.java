@@ -160,7 +160,8 @@ public class WorkOnJobActivity extends AppCompatActivity {
                 if (chooseSwitch.isChecked()) {
                     submitMinute = manualHour * 60 + manualMinute;
                 } else {
-                    submitMinute = (int) (SystemClock.elapsedRealtime() - chronometer.getBase()) / 60000;
+                    System.out.println(pauseOffset);
+                    submitMinute = (int) Math.ceil(pauseOffset / 60000.0);
                 }
                 timeSpentDatabaseManager.assignTimeSpentToJob(jobName, currentUsername, submitMinute, day);
             }
