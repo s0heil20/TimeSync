@@ -1,8 +1,10 @@
 package edu.sharif.timesync.database;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import edu.sharif.timesync.entity.Group;
+import edu.sharif.timesync.entity.User;
 
 public class GroupDatabaseManager {
     private static GroupDatabaseManager groupDatabaseManager;
@@ -57,5 +59,14 @@ public class GroupDatabaseManager {
 
     public void addGroupByName(String name){
         return;
+    }
+
+    public String getLoggedInUserRoleInCurrentGroup() {
+//        "user" or "leader"
+        return null;
+    }
+
+    public ArrayList<User> getCurrentGroupUsers() {
+        return null;
     }
 }

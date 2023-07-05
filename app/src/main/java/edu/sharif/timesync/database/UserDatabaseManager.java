@@ -121,4 +121,5 @@ public class UserDatabaseManager {
         sqLiteDatabase.delete(TABLE_NAME, USER_NAME_FIELD + "=?", new String[]{getLoggedInUser().getUsername()});
         sqLiteDatabase.close();
     }
+
 }
