@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -23,11 +24,15 @@ import edu.sharif.timesync.R;
 
 public class DashboardFragment extends Fragment {
 
+    private String role = "leader";
     private ArrayList<BarEntry> barArrayList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+//        if (role.equals("user")) {
+//            return inflater.inflate(R.layout.fragment_dashboard_user, container, false);
+//        }
         return inflater.inflate(R.layout.fragment_dashboard, container, false);
     }
 
@@ -36,7 +41,7 @@ public class DashboardFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 //        setting up
-        BarChart barChart = view.findViewById(R.id.barChart);
+        HorizontalBarChart barChart = view.findViewById(R.id.barChart);
         getData();
         BarDataSet barDataSet = new BarDataSet(barArrayList, "fake");
         BarData barData = new BarData(barDataSet);

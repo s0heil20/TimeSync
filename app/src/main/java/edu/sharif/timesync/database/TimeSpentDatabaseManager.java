@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import edu.sharif.timesync.entity.Job;
 import edu.sharif.timesync.entity.TimeSpent;
+import edu.sharif.timesync.entity.User;
 
 public class TimeSpentDatabaseManager {
     private static TimeSpentDatabaseManager timeSpentDatabaseManager;
@@ -67,4 +68,15 @@ public class TimeSpentDatabaseManager {
         return null;
     }
 
+    public ArrayList<TimeSpent> getTimeSpentByUserWeekly(User user) {
+        return null;
+    }
+
+    public ArrayList<TimeSpent> getAverageTimeSpentOnEachJobByCurrentGroup() {
+        return null;
+    }
+
+    public ArrayList<TimeSpent> getAverageTimeSpentByCurrentGroupWeekly() {
+        return null;
+    }
 }

@@ -50,4 +50,8 @@ public class JobDatabaseManager {
         return null;
     }
 
+    public ArrayList<Job> getCurrentUsersJobs() {
+        return null;
+    }
+
 }
