@@ -35,9 +35,9 @@ public class AssignUserToJobActivity extends AppCompatActivity {
             jobName = value;
         }
 
-        List<User> currentGroupUsers = sqlDatabaseManager.getGroupDatabaseManager().getCurrentGroupUsers();
-        for (User currentGroupUser : currentGroupUsers) {
-            usernames.add(currentGroupUser.getUsername());
+        List<String> currentGroupUsers = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroupUsernames();
+        for (String currentGroupUser : currentGroupUsers) {
+            usernames.add(currentGroupUser);
         }
 
         setContentView(R.layout.activity_assign_user_to_job);

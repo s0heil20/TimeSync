@@ -46,7 +46,7 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
     @Override
     public void addUser(String username) {
         // TODO add user!
-        sqlDatabaseManager.getGroupDatabaseManager().addUserToCurrentGroup(username);
+        sqlDatabaseManager.getGroupUserMappingDatabaseManager().addUserToCurrentGroup(username);
         Toast.makeText(getBaseContext(), "Added " + username , Toast.LENGTH_SHORT).show();
     }
 

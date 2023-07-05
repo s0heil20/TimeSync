@@ -27,8 +27,9 @@ public class GroupUserMappingDatabaseManager implements EntityDatabaseManager {
         return currentGroup;
     }
 
-    public void setCurrentGroup(Group currentGroup) {
-        this.currentGroup = currentGroup;
+    public void setCurrentGroup(String currentGroup) {
+        // TODO
+        //this.currentGroup = currentGroup;
     }
 
     public GroupUserMappingDatabaseManager(SQLDatabaseManager sqlDatabaseManager) {
@@ -180,6 +181,10 @@ public class GroupUserMappingDatabaseManager implements EntityDatabaseManager {
 
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
 
+    }
+
+    public ArrayList<String> getLoggedInUserAdminGroups(){
+        return null;
     }
 
 

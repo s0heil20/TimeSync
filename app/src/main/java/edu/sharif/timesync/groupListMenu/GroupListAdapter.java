@@ -17,11 +17,13 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListViewHolder>{
     private Context context;
     private List<GroupListItem> items;
     private SelectGroupListItemInterface listener;
+    private List<String> groupAdmins;
 
-    public GroupListAdapter(Context context, List<GroupListItem> items, boolean isLeader, SelectGroupListItemInterface listener) {
+    public GroupListAdapter(Context context, List<GroupListItem> items, List<String> groupAdmins, SelectGroupListItemInterface listener) {
         this.context = context;
         this.items = items;
         this.listener = listener;
+        this.groupAdmins = groupAdmins;
     }
 
     @NonNull
@@ -33,8 +35,9 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListViewHolder>{
     @Override
     public void onBindViewHolder(GroupListViewHolder holder, int position) {
         holder.groupNameTextView.setText(items.get(position).getName());
-        holder.groupIdTextView.setText(items.get(position).getGroupId()+"");
-        // TODO hide image if leader!
+        if(!groupAdmins.contains(items.get(position).getName())) {
+            holder.isLeaderImageView.setVisibility(View.INVISIBLE);
+        }
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

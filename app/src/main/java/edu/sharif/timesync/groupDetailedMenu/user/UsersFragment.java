@@ -46,14 +46,13 @@ public class UsersFragment extends Fragment  {
         configureFloatingActionButton(view);
 
 
-        addUserToRecyclerView(sqlDatabaseManager.getGroupDatabaseManager().getCurrentGroupUsers());
+        addUserToRecyclerView(sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroupUsernames());
     }
 
     private void configureFloatingActionButton(View view){
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO!
                 Toast.makeText(getContext(),"CLICKED ON FLOAT!",Toast.LENGTH_SHORT).show();
                 UsernameDialog dialog = new UsernameDialog();
                 dialog.show(getChildFragmentManager(), "create dialog!");
@@ -61,14 +60,13 @@ public class UsersFragment extends Fragment  {
         });
     }
 
-    private void addUserToRecyclerView(List<User> userList) {
-        // TODO isleader!
+    private void addUserToRecyclerView(List<String> userList) {
         List<UserListItem> items = new ArrayList<>();
-        for (User user : userList) {
-            items.add(new UserListItem(user.getUsername()));
+        for (String user : userList) {
+            items.add(new UserListItem(user));
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new UsersFragmentAdapter(getContext(), items, "leader Username");
+        adapter = new UsersFragmentAdapter(getContext(), items, sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUser().getUsername());
         recyclerView.setAdapter(adapter);
     }
 

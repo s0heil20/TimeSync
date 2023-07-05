@@ -2,12 +2,11 @@ package edu.sharif.timesync.groupListMenu;
 
 public class GroupListItem {
     String name;
-    int groupId;
 
 
-    public GroupListItem(String name, int groupId) {
+
+    public GroupListItem(String name) {
         this.name = name;
-        this.groupId = groupId;
 
     }
 
@@ -15,9 +14,7 @@ public class GroupListItem {
         return name;
     }
 
-    public int getGroupId() {
-        return groupId;
-    }
+
 
 
 }
