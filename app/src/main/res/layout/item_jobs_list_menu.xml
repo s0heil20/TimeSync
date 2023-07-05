@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/usersListItemLayout"
+    android:id="@+id/jobsListItemLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,20 +9,10 @@
 
     <TextView
         android:text="@string/default_filler"
-        android:id="@+id/usernameUsersListMenu"
+        android:id="@+id/nameJobListMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
-
-
-
-    <ImageView
-        android:text="@string/default_filler"
-        android:id="@+id/isLeaderIconUsersMenu"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_toEndOf="@id/usernameUsersListMenu"
-        app:srcCompat="@drawable/group_leader_edit_access"/>
 
 
 
