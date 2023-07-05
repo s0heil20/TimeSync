@@ -1,6 +1,10 @@
 package edu.sharif.timesync.database;
 
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,9 +16,10 @@ public class TimeSpentDatabaseManager {
     private static TimeSpentDatabaseManager timeSpentDatabaseManager;
     private static final String TABLE_NAME = "TimeSpentDB";
     private static final String ID_FIELD = "id";
-    private static final String USER_FIELD = "user";
-    private static final String JOB_FIELD = "job";
+    private static final String USERNAME_FIELD = "username";
+    private static final String JOB_NAME_FIELD = "job_name";
     private static final String TIME_LENGTH_FIELD = "time_length";
+    private static final String TIME_DAY_FIELD = "time_day";
 
     private SQLDatabaseManager sqlDatabaseManager;
 
@@ -38,12 +43,14 @@ public class TimeSpentDatabaseManager {
                 .append("(")
                 .append(ID_FIELD)
                 .append(" INTEGER PRIMARY KEY AUTOINCREMENT, ")
-                .append(USER_FIELD)
+                .append(USERNAME_FIELD)
                 .append(" TEXT, ")
-                .append(JOB_FIELD)
+                .append(JOB_NAME_FIELD)
+                .append(" TEXT, ")
+                .append(TIME_DAY_FIELD)
                 .append(" TEXT, ")
                 .append(TIME_LENGTH_FIELD)
-                .append(" TEXT)");
+                .append(" INT)");
 
         return sql.toString();
     }
@@ -52,31 +59,81 @@ public class TimeSpentDatabaseManager {
         return TABLE_NAME;
     }
 
-    public void assignTimeSpentToJob(String jobId, String username, int minute, int hours){
-        return;
+    public void assignTimeSpentToJob(String jobName, String username, int minute, String day) {
+        SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(USERNAME_FIELD, username);
+        contentValues.put(JOB_NAME_FIELD, jobName);
+        contentValues.put(TIME_LENGTH_FIELD, minute);
+        contentValues.put(TIME_DAY_FIELD, day);
+
+        sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
     }
 
-    public ArrayList<TimeSpent> getAllTimeSpentOfWeekOfUser(String username) {
-        return null;
+    private HashMap<String, Integer> getTimeSpentByUser(String username, String accordingToField) {
+        SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
+
+        StringBuilder sql;
+        sql = new StringBuilder()
+                .append("SELECT ")
+                .append(accordingToField)
+                .append(", SUM(")
+                .append(TIME_LENGTH_FIELD)
+                .append(") FROM ")
+                .append(TABLE_NAME)
+                .append("GROUP BY ")
+                .append(accordingToField)
+                .append(" WHERE ")
+                .append(USERNAME_FIELD)
+                .append(" = ?");
+
+        Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{username});
+
+        HashMap<String, Integer> times = new HashMap<>();
+        while (result.moveToNext()) {
+            times.put(result.getString(0), result.getInt(1));
+        }
+        return times;
     }
 
-    public TimeSpent getTimeSpentOnJobByUser(String jobId, String username){
-        return null;
+    public HashMap<String, Integer> getTimeSpentByUserWeekly(String username) {
+        return getTimeSpentByUser(username, TIME_DAY_FIELD);
+
     }
 
-    public HashMap<Job, TimeSpent> getTimeSpentOnEachJobByUser(ArrayList<String> jobIds, String username){
-        return null;
+    public HashMap<String, Integer> getTimeSpentByUserByJobName(String username) {
+        return getTimeSpentByUser(username, JOB_NAME_FIELD);
     }
 
-    public ArrayList<TimeSpent> getTimeSpentByUserWeekly(User user) {
-        return null;
+    private HashMap<String, Integer> getAverageTimeSpent(String accordingToField) {
+        SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
+
+        StringBuilder sql;
+        sql = new StringBuilder()
+                .append("SELECT ")
+                .append(accordingToField)
+                .append(", SUM(")
+                .append(TIME_LENGTH_FIELD)
+                .append(") FROM ")
+                .append(TABLE_NAME)
+                .append("GROUP BY ")
+                .append(accordingToField);
+
+        Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{});
+
+        HashMap<String, Integer> times = new HashMap<>();
+        while (result.moveToNext()) {
+            times.put(result.getString(0), result.getInt(1));
+        }
+        return times;
     }
 
-    public ArrayList<TimeSpent> getAverageTimeSpentOnEachJobByCurrentGroup() {
-        return null;
+    public HashMap<String, Integer> getAverageTimeSpentOnEachJobByCurrentGroup() {
+        return getAverageTimeSpent(JOB_NAME_FIELD);
     }
 
-    public ArrayList<TimeSpent> getAverageTimeSpentByCurrentGroupWeekly() {
-        return null;
+    public HashMap<String, Integer> getAverageTimeSpentByCurrentGroupWeekly() {
+        return getAverageTimeSpent(TIME_DAY_FIELD);
     }
 }
