@@ -1,5 +1,6 @@
 package edu.sharif.timesync.database;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -72,7 +73,15 @@ public class GroupJobMappingDatabaseManager implements EntityDatabaseManager {
     }
 
     public void addJobByName(String jobName) {
-        //TODO
+        String groupName = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getName();
+
+        SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(GROUP_NAME_FIELD, groupName);
+        contentValues.put(JOB_NAME_FIELD, jobName);
+
+        sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
     }
 
 }

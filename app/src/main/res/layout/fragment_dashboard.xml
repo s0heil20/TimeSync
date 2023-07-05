@@ -7,19 +7,26 @@
 
     <!-- when first started, is in user mode -->
     <ViewFlipper
+        android:id="@+id/topFlipper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/topFlipper">
+        android:layout_height="match_parent">
 
         <!-- user -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
 
             <ViewFlipper
+                android:id="@+id/barChartFlipper"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/barChartFlipper">
+                android:layout_height="match_parent">
 
                 <com.github.mikephil.charting.charts.HorizontalBarChart
                     android:id="@+id/weekChart"

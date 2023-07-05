@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 import edu.sharif.timesync.entity.Group;
+import edu.sharif.timesync.entity.User;
 
 public class GroupUserMappingDatabaseManager implements EntityDatabaseManager {
     private static GroupUserMappingDatabaseManager groupUserMappingDatabaseManager;
@@ -182,7 +183,12 @@ public class GroupUserMappingDatabaseManager implements EntityDatabaseManager {
         return usernames;
     }
 
-    public void addUserToCurrentGroup(String username) {
+    public void addUserToCurrentGroup(String username) throws Exception {
+
+        if (!sqlDatabaseManager.getUserDatabaseManager().doesUsernameExists(new User(username, ""))) {
+            throw new Exception("nadarim!");
+        }
+
         String currentGroupName = currentGroup.getName();
 
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getWritableDatabase();
