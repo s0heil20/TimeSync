@@ -10,9 +10,9 @@
         android:id="@+id/groupNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Group Name!"
+        android:hint="@string/group_name"
         android:inputType="text"
-        />
+        android:autofillHints="group name" />
 
 
 </RelativeLayout>

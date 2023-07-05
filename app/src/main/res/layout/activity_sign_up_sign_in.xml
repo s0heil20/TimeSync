@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity"
+    tools:context=".signUpSignIn.SignUpSignInActivity"
     tools:openDrawer="start">
 
     <ViewFlipper
@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Sign In"
+                android:text="@string/sign_in"
                 android:textAlignment="center"
                 android:textSize="50sp" />
 
@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:hint="Username"
+                android:hint="@string/username"
                 app:boxStrokeColor="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:hint="Password"
+                android:hint="@string/password"
                 app:boxStrokeColor="@color/black"
                 app:passwordToggleEnabled="true">
 
@@ -82,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="Remember Me"
+                    android:text="@string/remember_me"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -103,7 +103,7 @@
                     android:paddingTop="10dp"
                     android:paddingEnd="20dp"
                     android:paddingBottom="10dp"
-                    android:text="Sign In"
+                    android:text="@string/sign_in"
                     app:cornerRadius="10dp" />
 
             </FrameLayout>
@@ -119,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="Don't have an Account?"
+                    android:text="@string/don_t_have_an_account"
                     android:textSize="14sp" />
 
                 <TextView
@@ -128,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:onClick="goToSignUp"
-                    android:text="Sign Up"
+                    android:text="@string/sign_up"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -146,7 +146,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Sign Up"
+                android:text="@string/sign_up"
                 android:textAlignment="center"
                 android:textSize="50sp" />
 
@@ -156,7 +156,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:hint="Username"
+                android:hint="@string/username"
                 app:boxStrokeColor="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -173,7 +173,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:hint="Password"
+                android:hint="@string/password"
                 app:boxStrokeColor="@color/black"
                 app:passwordToggleEnabled="true">
 
@@ -191,7 +191,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:hint="Confirm Password"
+                android:hint="@string/confirm_password"
                 app:boxStrokeColor="@color/black"
                 app:passwordToggleEnabled="true">
 
@@ -199,23 +199,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:singleLine="true"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/signUpNickname"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:hint="Nickname"
-                app:boxStrokeColor="@color/black">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
                     android:singleLine="true"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -236,7 +219,7 @@
                     android:paddingTop="10dp"
                     android:paddingEnd="20dp"
                     android:paddingBottom="10dp"
-                    android:text="Sign Up"
+                    android:text="@string/sign_up"
                     app:cornerRadius="10dp" />
 
             </FrameLayout>
@@ -252,7 +235,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="Already have an Account?"
+                    android:text="@string/already_have_an_account"
                     android:textSize="14sp" />
 
                 <TextView
@@ -261,7 +244,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:onClick="goToSignIn"
-                    android:text="Sign In"
+                    android:text="@string/sign_in"
                     android:textSize="14sp" />
             </LinearLayout>
 
