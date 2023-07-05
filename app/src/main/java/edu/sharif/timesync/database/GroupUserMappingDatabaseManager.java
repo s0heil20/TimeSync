@@ -184,7 +184,27 @@ public class GroupUserMappingDatabaseManager implements EntityDatabaseManager {
     }
 
     public ArrayList<String> getLoggedInUserAdminGroups(){
-        return null;
+        String username = sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername();
+
+        SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
+        String currentGroupName = currentGroup.getName();
+        StringBuilder sql;
+        sql = new StringBuilder()
+                .append("SELECT * FROM ")
+                .append(TABLE_NAME)
+                .append(" WHERE ")
+                .append(USERNAME_FIELD)
+                .append(" = ? AND ")
+                .append(IS_ADMIN_FIELD)
+                .append(" = ? ");
+
+        Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{username, "1"});
+
+        ArrayList<String> groups = new ArrayList<>();
+        while (result.moveToNext()) {
+            groups.add(result.getString(2));
+        }
+        return groups;
     }
 
 
