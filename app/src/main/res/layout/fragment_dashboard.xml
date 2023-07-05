@@ -5,17 +5,52 @@
     android:layout_height="match_parent"
     tools:context=".groupDetailedMenu.dashboard.DashboardFragment">
 
-    <!--    <ViewFlipper-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent">-->
-
-    <com.github.mikephil.charting.charts.HorizontalBarChart
-        android:id="@+id/barChart"
+    <!-- when first started, is in user mode -->
+    <ViewFlipper
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="100dp" />
+        android:id="@+id/topFlipper">
 
-    <!--    </ViewFlipper>-->
+        <!-- user -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <ViewFlipper
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/barChartFlipper">
+
+                <com.github.mikephil.charting.charts.HorizontalBarChart
+                    android:id="@+id/weekChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="100dp" />
+
+                <com.github.mikephil.charting.charts.HorizontalBarChart
+                    android:id="@+id/jobsChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="100dp" />
+
+            </ViewFlipper>
+
+        </LinearLayout>
+
+        <!-- admin -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </LinearLayout>
+
+        <!-- admin's user -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
+
+    </ViewFlipper>
 
 </FrameLayout>

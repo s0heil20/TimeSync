@@ -183,10 +183,6 @@ public class GroupUserMappingDatabaseManager implements EntityDatabaseManager {
 
     }
 
-    public static Group getCurrentGroup(){
-        return currentGroup;
-    }
-
     public ArrayList<String> getLoggedInUserAdminGroups(){
         return null;
     }

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ViewFlipper;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -21,18 +22,20 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 
 import edu.sharif.timesync.R;
+import edu.sharif.timesync.database.SQLDatabaseManager;
 
 public class DashboardFragment extends Fragment {
 
-    private String role = "leader";
+    private ViewFlipper topFlipper;
+    private ViewFlipper barChartFlipper;
+
+    private HorizontalBarChart barChart;
+
     private ArrayList<BarEntry> barArrayList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-//        if (role.equals("user")) {
-//            return inflater.inflate(R.layout.fragment_dashboard_user, container, false);
-//        }
         return inflater.inflate(R.layout.fragment_dashboard, container, false);
     }
 
@@ -40,9 +43,20 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        setting up
-        HorizontalBarChart barChart = view.findViewById(R.id.barChart);
-        getData();
+        topFlipper = view.findViewById(R.id.topFlipper);
+        barChartFlipper = view.findViewById(R.id.barChartFlipper);
+
+        SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
+        if (sqlDatabaseManager.getGroupUserMappingDatabaseManager().isLoggedInUserAdminInCurrentGroup()) {
+
+        } else {
+
+        }
+    }
+
+    private void setUpWeekChart() {
+        //        setting up
+//        set data
         BarDataSet barDataSet = new BarDataSet(barArrayList, "fake");
         BarData barData = new BarData(barDataSet);
         barChart.setData(barData);
@@ -53,12 +67,9 @@ public class DashboardFragment extends Fragment {
         barDataSet.setValueTextSize(16f);
     }
 
-    private void getData() {
-        barArrayList = new ArrayList<BarEntry>();
-        barArrayList.add(new BarEntry(2f, 10));
-        barArrayList.add(new BarEntry(3f, 20));
-        barArrayList.add(new BarEntry(4f, 30));
-        barArrayList.add(new BarEntry(5f, 40));
-        barArrayList.add(new BarEntry(6f, 50));
+    private void setUpJobsChart() {
+
     }
+
+
 }

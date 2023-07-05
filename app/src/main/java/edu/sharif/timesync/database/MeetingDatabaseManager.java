@@ -72,7 +72,7 @@ public class MeetingDatabaseManager {
             return false;
         }
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getWritableDatabase();
-        String groupName = GroupUserMappingDatabaseManager.getCurrentGroup().getName();
+        String groupName = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getName();
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(MEETING_ID_FIELD, meetingName);

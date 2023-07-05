@@ -39,7 +39,7 @@ public class GroupJobMappingDatabaseManager implements EntityDatabaseManager {
                 .append(GROUP_NAME_FIELD)
                 .append(" TEXT NOT NULL UNIQUE, ")
                 .append(JOB_NAME_FIELD)
-                .append(" TEXT NOT NULL, ");
+                .append(" TEXT NOT NULL)");
 
         return sql.toString();
     }
