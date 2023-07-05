@@ -22,12 +22,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
 
         SharedPreferences sharedPreferences = getSharedPreferences(loginFilename, Context.MODE_PRIVATE);
         if (sharedPreferences.contains(username)) {
             String storedUsername = sharedPreferences.getString(username, "");
             String storedPassword = sharedPreferences.getString(password, "");
-            SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
+
             User user = new User(storedUsername, storedPassword);
             sqlDatabaseManager.getUserDatabaseManager().setLoggedInUser(user);
 
