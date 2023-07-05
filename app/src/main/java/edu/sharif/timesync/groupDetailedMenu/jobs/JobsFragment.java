@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +21,13 @@ import edu.sharif.timesync.R;
 import edu.sharif.timesync.assignUserToJob.AssignUserToJobActivity;
 import edu.sharif.timesync.database.SQLDatabaseManager;
 import edu.sharif.timesync.entity.Job;
+import edu.sharif.timesync.groupDetailedMenu.user.UsernameDialog;
 
 public class JobsFragment extends Fragment implements SelectJobsListItemInterface {
 
     private RecyclerView recyclerView;
     private JobsFragmentAdapter adapter;
+    private FloatingActionButton floatingActionButton;
     private SQLDatabaseManager sqlDatabaseManager;
 
     @Override
@@ -37,12 +41,25 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
     public void onViewCreated(View view,Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
+        floatingActionButton = view.findViewById(R.id.floatingActionButtonJobsListMenu);
 
         recyclerView = view.findViewById(R.id.jobsListRecyclerView);
 
+        configureFloatingActionButton(view);
 
         // TODO!
         addJobToRecyclerView(sqlDatabaseManager.getGroupJobMappingDatabaseManager().getJobsOfCurrentGroup());
+    }
+
+    private void configureFloatingActionButton(View view) {
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"CLICKED ON FLOAT!",Toast.LENGTH_SHORT).show();
+                JobDialog dialog = new JobDialog();
+                dialog.show(getChildFragmentManager(), "create dialog!");
+            }
+        });
     }
 
 

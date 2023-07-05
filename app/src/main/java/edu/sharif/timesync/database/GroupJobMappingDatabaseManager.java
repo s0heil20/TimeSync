@@ -71,4 +71,8 @@ public class GroupJobMappingDatabaseManager implements EntityDatabaseManager {
         return jobs;
     }
 
+    public void addJobByName(String jobName) {
+        //TODO
+    }
+
 }

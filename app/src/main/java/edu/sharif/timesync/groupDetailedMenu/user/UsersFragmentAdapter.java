@@ -32,7 +32,9 @@ public class UsersFragmentAdapter extends RecyclerView.Adapter<UsersFragmentView
     @Override
     public void onBindViewHolder(UsersFragmentViewHolder holder, int position) {
         holder.usernameTextView.setText(items.get(position).getUsername());
-        if(items.get(position).getUsername() != this.leaderUsername) {
+        if(!items.get(position).getUsername().equals(this.leaderUsername)) {
+            System.out.println("username " + items.get(position).getUsername() );
+            System.out.println("leader " + this.leaderUsername);
             holder.isLeaderImageView.setVisibility(View.INVISIBLE);
         }
     }

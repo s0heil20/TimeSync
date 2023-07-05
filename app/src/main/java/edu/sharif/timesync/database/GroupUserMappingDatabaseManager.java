@@ -200,7 +200,6 @@ public class GroupUserMappingDatabaseManager implements EntityDatabaseManager {
         String username = sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername();
 
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
-        String currentGroupName = currentGroup.getName();
         StringBuilder sql;
         sql = new StringBuilder()
                 .append("SELECT * FROM ")
