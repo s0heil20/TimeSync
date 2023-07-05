@@ -1,14 +1,18 @@
 package edu.sharif.timesync.workOnJob;
 
+import static android.os.SystemClock.elapsedRealtime;
+
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.NumberPicker;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -18,6 +22,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Locale;
 
 import edu.sharif.timesync.R;
+import edu.sharif.timesync.database.SQLDatabaseManager;
+import edu.sharif.timesync.database.TimeSpentDatabaseManager;
+import edu.sharif.timesync.database.UserDatabaseManager;
+import edu.sharif.timesync.entity.Meeting;
+import edu.sharif.timesync.entity.MeetingChoice;
 
 public class WorkOnJobActivity extends AppCompatActivity {
 
@@ -26,15 +35,24 @@ public class WorkOnJobActivity extends AppCompatActivity {
     Button startButton;
     Button resetButton;
     Button setManuallyButton;
-
     TextView manualTextView;
     Switch chooseSwitch;
+    Button submitButton;
+
+    Spinner spinSelectedDay;
     long pauseOffset = 0;
+
+    String jobName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_on_job);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            jobName = extras.getString("name");
+        }
 
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         startButton = (Button) findViewById(R.id.startButton);
@@ -46,6 +64,12 @@ public class WorkOnJobActivity extends AppCompatActivity {
         setManuallyButton.setEnabled(false);
         manualTextView.setEnabled(false);
 
+        submitButton = (Button) findViewById(R.id.submitTimeButton);
+
+
+        spinSelectedDay = (Spinner) findViewById(R.id.spinSelectedDay);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item_day_picker, MeetingChoice.days);
+        spinSelectedDay.setAdapter(adapter);
 
         setManuallyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,14 +79,14 @@ public class WorkOnJobActivity extends AppCompatActivity {
         });
 
 
-        chronometer.setText(String.format(Locale.getDefault(),"%02d:%02d:%02d", 0, 0, 0));
+        chronometer.setText(String.format(Locale.getDefault(), "%02d:%02d:%02d", 0, 0, 0));
         chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             public void onChronometerTick(Chronometer cArg) {
-                long time = SystemClock.elapsedRealtime() - cArg.getBase();
+                long time = elapsedRealtime() - cArg.getBase();
                 int h = (int) (time / 3600000);
                 int m = (int) (time - h * 3600000) / 60000;
-                int s = (int) (time % 60000)/1000;
-                cArg.setText(String.format(Locale.getDefault(),"%02d:%02d:%02d", h, m, s));
+                int s = (int) (time % 60000) / 1000;
+                cArg.setText(String.format(Locale.getDefault(), "%02d:%02d:%02d", h, m, s));
             }
         });
 
@@ -72,14 +96,14 @@ public class WorkOnJobActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!isWorking) {
-                    chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
+                    chronometer.setBase(elapsedRealtime() - pauseOffset);
                     chronometer.start();
                     isWorking = true;
                     startButton.setText("Stop");
                     resetButton.setVisibility(View.INVISIBLE);
                 } else {
                     chronometer.stop();
-                    pauseOffset = SystemClock.elapsedRealtime() - chronometer.getBase();
+                    pauseOffset = elapsedRealtime() - chronometer.getBase();
                     isWorking = false;
                     startButton.setText("Start");
                     resetButton.setVisibility(View.VISIBLE);
@@ -91,7 +115,7 @@ public class WorkOnJobActivity extends AppCompatActivity {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chronometer.setBase(SystemClock.elapsedRealtime());
+                chronometer.setBase(elapsedRealtime());
                 pauseOffset = 0;
                 resetButton.setVisibility(View.INVISIBLE);
             }
@@ -109,7 +133,7 @@ public class WorkOnJobActivity extends AppCompatActivity {
 
                     setManuallyButton.setEnabled(true);
                     manualTextView.setEnabled(true);
-                } else{
+                } else {
                     chronometer.setEnabled(true);
                     startButton.setEnabled(true);
                     resetButton.setEnabled(true);
@@ -118,6 +142,27 @@ public class WorkOnJobActivity extends AppCompatActivity {
                     manualTextView.setEnabled(false);
                 }
 
+            }
+        });
+
+        SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
+        TimeSpentDatabaseManager timeSpentDatabaseManager = TimeSpentDatabaseManager.instanceOfGroupDatabaseManager(sqlDatabaseManager);
+        String currentUsername = UserDatabaseManager.instanceOfUserDatabaseManager(sqlDatabaseManager)
+                .getLoggedInUser().getUsername();
+
+        String day = (String) spinSelectedDay.getSelectedItem();
+
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int submitMinute;
+                if (chooseSwitch.isChecked()) {
+                    submitMinute = manualHour * 60 + manualMinute;
+                } else {
+                    submitMinute = (int) (SystemClock.elapsedRealtime() - chronometer.getBase()) / 60000;
+                }
+                timeSpentDatabaseManager.assignTimeSpentToJob(jobName, currentUsername, submitMinute, day);
             }
         });
     }
