@@ -12,12 +12,13 @@ import com.google.android.material.tabs.TabLayout;
 import edu.sharif.timesync.R;
 import edu.sharif.timesync.database.SQLDatabaseManager;
 import edu.sharif.timesync.groupDetailedMenu.dashboard.DashboardFragment;
+import edu.sharif.timesync.groupDetailedMenu.jobs.JobDialog;
 import edu.sharif.timesync.groupDetailedMenu.jobs.JobsFragment;
 import edu.sharif.timesync.groupDetailedMenu.meeting.MeetingFragment;
 import edu.sharif.timesync.groupDetailedMenu.user.UsernameDialog;
 import edu.sharif.timesync.groupDetailedMenu.user.UsersFragment;
 
-public class GroupDetailedMenuActivity extends AppCompatActivity implements UsernameDialog.UsernameDialogListener{
+public class GroupDetailedMenuActivity extends AppCompatActivity implements UsernameDialog.UsernameDialogListener, JobDialog.jobDialogListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -50,5 +51,9 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
         Toast.makeText(getBaseContext(), "Added " + username , Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void addJob(String name) {
+        sqlDatabaseManager.getGroupJobMappingDatabaseManager().addJobByName(name);
 
+    }
 }
