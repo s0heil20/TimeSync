@@ -18,6 +18,7 @@ public class SQLDatabaseManager extends SQLiteOpenHelper {
     private final JobDatabaseManager jobDatabaseManager;
     private final MeetingDatabaseManager meetingDatabaseManager;
     private final TimeSpentDatabaseManager timeSpentDatabaseManager;
+    private final GroupJobMappingDatabaseManager groupJobMappingDatabaseManager;
 
 
     public SQLDatabaseManager(@Nullable Context context) {
@@ -28,6 +29,7 @@ public class SQLDatabaseManager extends SQLiteOpenHelper {
         jobDatabaseManager = JobDatabaseManager.instanceOfJobDatabaseManager(this);
         meetingDatabaseManager = MeetingDatabaseManager.instanceOfMeetingDatabaseManager(this);
         timeSpentDatabaseManager = TimeSpentDatabaseManager.instanceOfGroupDatabaseManager(this);
+        groupJobMappingDatabaseManager = GroupJobMappingDatabaseManager.instanceOfGroupJobMappingDatabaseManager(this);
     }
 
     public static SQLDatabaseManager instanceOfDatabase(Context context) {
@@ -57,6 +59,10 @@ public class SQLDatabaseManager extends SQLiteOpenHelper {
         return timeSpentDatabaseManager;
     }
 
+    public GroupJobMappingDatabaseManager getGroupJobMappingDatabaseManager() {
+        return groupJobMappingDatabaseManager;
+    }
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(userDatabaseManager.createTableString());
@@ -64,6 +70,7 @@ public class SQLDatabaseManager extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(jobDatabaseManager.createTableString());
         sqLiteDatabase.execSQL(meetingDatabaseManager.createTableString());
         sqLiteDatabase.execSQL(timeSpentDatabaseManager.createTableString());
+        sqLiteDatabase.execSQL(groupJobMappingDatabaseManager.createTableString());
     }
 
     @Override
@@ -73,6 +80,7 @@ public class SQLDatabaseManager extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + jobDatabaseManager.getTableName());
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + meetingDatabaseManager.getTableName());
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + timeSpentDatabaseManager.getTableName());
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + groupJobMappingDatabaseManager.getTableName());
         onCreate(sqLiteDatabase);
     }
 

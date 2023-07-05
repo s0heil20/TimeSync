@@ -38,14 +38,14 @@ public class SignUpSignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_sign_in);
 
         sharedPreferences = getSharedPreferences(fileName, Context.MODE_PRIVATE);
-//        if (sharedPreferences.contains(username)) {
-//            String storedUsername = sharedPreferences.getString(username, "");
-//            String storedPassword = sharedPreferences.getString(password, "");
-//            SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
-//            User user = new User(storedUsername, storedPassword);
-//            sqlDatabaseManager.getUserDatabaseManager().setLoggedInUser(user);
-//            startActivity(new Intent(this, GroupListMenuActivity.class));
-//        }
+        if (sharedPreferences.contains(username)) {
+            String storedUsername = sharedPreferences.getString(username, "");
+            String storedPassword = sharedPreferences.getString(password, "");
+            SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
+            User user = new User(storedUsername, storedPassword);
+            sqlDatabaseManager.getUserDatabaseManager().setLoggedInUser(user);
+            startActivity(new Intent(this, GroupListMenuActivity.class));
+        }
 
         viewFlipper = findViewById(R.id.viewFlipper);
     }
