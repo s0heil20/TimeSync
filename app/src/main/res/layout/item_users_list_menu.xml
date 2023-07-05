@@ -2,27 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/usersListItemLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/custom_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:paddingHorizontal="60dp"
     >
 
     <TextView
-        android:text="@string/default_filler"
         android:id="@+id/usernameUsersListMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
-
+        android:layout_alignParentStart="true"
+        android:layout_centerInParent="true"
+        android:text="@string/default_filler" />
 
 
     <ImageView
-        android:text="@string/default_filler"
         android:id="@+id/isLeaderIconUsersMenu"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_toEndOf="@id/usernameUsersListMenu"
-        app:srcCompat="@drawable/group_leader_edit_access"/>
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:text="@string/default_filler"
+        app:srcCompat="@drawable/group_leader_edit_access" />
 
 
 

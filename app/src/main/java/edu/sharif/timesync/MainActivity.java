@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import edu.sharif.timesync.assignUserToJob.AssignUserToJobActivity;
+import edu.sharif.timesync.groupListMenu.GroupListItem;
 import edu.sharif.timesync.meeting.MeetingActivity;
 
 import edu.sharif.timesync.groupDetailedMenu.GroupDetailedMenuActivity;
@@ -20,10 +21,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        startActivity(new Intent(this, GroupListMenuActivity.class));
 //        startActivity(new Intent(this, MeetingActivity.class));
 //       startActivity(new Intent(this, GroupDetailedMenuActivity.class));
 //        startActivity(new Intent(this, AssignUserToJobActivity.class));
-        startActivity(new Intent(this, WorkOnJobActivity.class));
+       // startActivity(new Intent(this, WorkOnJobActivity.class));
     }
 }

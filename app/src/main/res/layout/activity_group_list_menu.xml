@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/gradient_background_green"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
     tools:context=".groupListMenu.GroupListMenuActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:clickable="true"
         android:layout_alignRight="@id/groupListRecyclerView"
         android:layout_alignBottom="@id/groupListRecyclerView"
@@ -18,10 +21,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/groupListRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="550dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="20dp"
+        android:layout_height="match_parent"
         android:paddingBottom="20dp"
         >
 
