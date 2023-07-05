@@ -23,4 +23,14 @@ public class MeetingChoice {
         return timeIndex == that.timeIndex && Objects.equals(day, that.day);
     }
 
+    public int convertToInt() {
+        return (timeIndex - 1) * 7 + days.indexOf(day);
+    }
+
+    public static MeetingChoice getMeetingChoiceFromInt(int number){
+        String day = days.get(number * 7);
+        int index = number/7 + 1;
+        return new MeetingChoice(index, day);
+    }
+
 }
