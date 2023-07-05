@@ -73,7 +73,8 @@ public class GroupListMenuActivity extends AppCompatActivity implements SelectGr
 
     @Override
     public void addGroup(String groupName) {
-        boolean result = sqlDatabaseManager.getGroupUserMappingDatabaseManager().addGroupByName(new Group(groupName, sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser()));
+        boolean result = sqlDatabaseManager.getGroupUserMappingDatabaseManager().addGroupByName(new Group(groupName,
+                sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername()));
 
         if (!result) {
             Toast.makeText(getBaseContext(), groupName + " ALREADY EXISTS", Toast.LENGTH_SHORT).show();

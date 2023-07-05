@@ -27,9 +27,22 @@ public class GroupUserMappingDatabaseManager implements EntityDatabaseManager {
         return currentGroup;
     }
 
-    public void setCurrentGroup(String currentGroup) {
-        // TODO
-        //this.currentGroup = currentGroup;
+    public void setCurrentGroup(String currentGroupName) {
+        SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
+
+        StringBuilder sql;
+        sql = new StringBuilder()
+                .append("SELECT * FROM ")
+                .append(TABLE_NAME)
+                .append(" WHERE ")
+                .append(GROUP_NAME_FIELD)
+                .append(" = ? AND ")
+                .append(IS_ADMIN_FIELD)
+                .append(" = ? ");
+
+        Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{currentGroupName, "1"});
+        result.moveToFirst();
+        currentGroup = new Group(currentGroupName, result.getString(1));
     }
 
     public GroupUserMappingDatabaseManager(SQLDatabaseManager sqlDatabaseManager) {
@@ -93,7 +106,7 @@ public class GroupUserMappingDatabaseManager implements EntityDatabaseManager {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(GROUP_NAME_FIELD, group.getName());
-        contentValues.put(USERNAME_FIELD, group.getAdminUser().getUsername());
+        contentValues.put(USERNAME_FIELD, group.getAdminUsername());
 
         contentValues.put(IS_ADMIN_FIELD, 1);
 
