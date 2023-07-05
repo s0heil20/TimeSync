@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 //        startActivity(new Intent(this, MeetingActivity.class));
-       startActivity(new Intent(this, GroupDetailedMenuActivity.class));
+//       startActivity(new Intent(this, GroupDetailedMenuActivity.class));
 //        startActivity(new Intent(this, AssignUserToJobActivity.class));
-//        startActivity(new Intent(this, WorkOnJobActivity.class));
+        startActivity(new Intent(this, WorkOnJobActivity.class));
     }
 }
