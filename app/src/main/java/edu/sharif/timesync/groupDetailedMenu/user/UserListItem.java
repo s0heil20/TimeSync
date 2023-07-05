@@ -1,4 +1,4 @@
-package edu.sharif.timesync.groupDetailedMenu;
+package edu.sharif.timesync.groupDetailedMenu.user;
 
 public class UserListItem {
     String username;

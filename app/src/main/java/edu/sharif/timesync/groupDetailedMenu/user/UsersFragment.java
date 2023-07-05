@@ -1,9 +1,7 @@
-package edu.sharif.timesync.groupDetailedMenu;
+package edu.sharif.timesync.groupDetailedMenu.user;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,11 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.sharif.timesync.R;
-import edu.sharif.timesync.entity.Group;
 import edu.sharif.timesync.entity.User;
-import edu.sharif.timesync.groupListMenu.GroupListAdapter;
-import edu.sharif.timesync.groupListMenu.GroupListItem;
-import edu.sharif.timesync.groupListMenu.GroupNameDialog;
 
 
 public class UsersFragment extends Fragment  {

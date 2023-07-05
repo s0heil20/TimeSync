@@ -1,4 +1,4 @@
-package edu.sharif.timesync.groupDetailedMenu;
+package edu.sharif.timesync.groupDetailedMenu.jobs;
 
 import android.content.Context;
 import android.view.LayoutInflater;

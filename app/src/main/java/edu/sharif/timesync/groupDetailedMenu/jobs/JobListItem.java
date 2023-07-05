@@ -1,4 +1,4 @@
-package edu.sharif.timesync.groupDetailedMenu;
+package edu.sharif.timesync.groupDetailedMenu.jobs;
 
 public class JobListItem {
     String name;

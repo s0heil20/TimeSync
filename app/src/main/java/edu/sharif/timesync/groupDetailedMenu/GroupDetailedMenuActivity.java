@@ -1,6 +1,5 @@
 package edu.sharif.timesync.groupDetailedMenu;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -11,8 +10,11 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import edu.sharif.timesync.R;
-import edu.sharif.timesync.groupListMenu.GroupListItem;
-import edu.sharif.timesync.groupListMenu.GroupListMenuActivity;
+import edu.sharif.timesync.groupDetailedMenu.dashboard.DashboardFragment;
+import edu.sharif.timesync.groupDetailedMenu.jobs.JobsFragment;
+import edu.sharif.timesync.groupDetailedMenu.meeting.MeetingFragment;
+import edu.sharif.timesync.groupDetailedMenu.user.UsernameDialog;
+import edu.sharif.timesync.groupDetailedMenu.user.UsersFragment;
 
 public class GroupDetailedMenuActivity extends AppCompatActivity implements UsernameDialog.UsernameDialogListener{
 

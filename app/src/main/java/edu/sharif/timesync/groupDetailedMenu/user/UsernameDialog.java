@@ -1,4 +1,4 @@
-package edu.sharif.timesync.groupDetailedMenu;
+package edu.sharif.timesync.groupDetailedMenu.user;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,7 +12,6 @@ import android.widget.EditText;
 import androidx.fragment.app.DialogFragment;
 
 import edu.sharif.timesync.R;
-import edu.sharif.timesync.groupListMenu.GroupNameDialog;
 
 public class UsernameDialog extends DialogFragment {
     private EditText usernameEditText;
