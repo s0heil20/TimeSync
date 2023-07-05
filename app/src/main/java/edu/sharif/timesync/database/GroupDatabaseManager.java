@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.Date;
+
 
 import edu.sharif.timesync.entity.Group;
 import edu.sharif.timesync.entity.User;
@@ -104,5 +104,9 @@ public class GroupDatabaseManager implements EntityDatabaseManager {
 
     public ArrayList<User> getCurrentGroupUsers() {
         return null;
+    }
+
+    public void addUserToCurrentGroup(String username){
+
     }
 }
