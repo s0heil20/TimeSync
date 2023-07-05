@@ -66,7 +66,7 @@ public class UsersFragment extends Fragment  {
             items.add(new UserListItem(user));
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new UsersFragmentAdapter(getContext(), items, sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUser().getUsername());
+        adapter = new UsersFragmentAdapter(getContext(), items, sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUsername());
         recyclerView.setAdapter(adapter);
     }
 
