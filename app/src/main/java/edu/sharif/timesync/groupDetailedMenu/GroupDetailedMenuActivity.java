@@ -23,10 +23,16 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private SQLDatabaseManager sqlDatabaseManager;
+    private UsersFragment userFragment;
+    private JobsFragment jobsFragment;
+    private DashboardFragment dashboardFragment;
+    private MeetingFragment meetingFragment;
+    private boolean isLeader;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_detailed_menu);
         sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
+        isLeader = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUsername() == sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername();
 
         tabLayout = findViewById(R.id.mainTabLayout);
         viewPager = findViewById(R.id.mainViewPager);
@@ -35,10 +41,16 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
 
         GroupDetailedMenuAdapter groupDetailedMenuAdapter = new GroupDetailedMenuAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
-        groupDetailedMenuAdapter.addFragment(new UsersFragment(), "USERS");
-        groupDetailedMenuAdapter.addFragment(new JobsFragment(), "JOBS");
-        groupDetailedMenuAdapter.addFragment(new DashboardFragment(), "DASHBOARD");
-        groupDetailedMenuAdapter.addFragment(new MeetingFragment(), "MEETINGS");
+        userFragment = new UsersFragment();
+        jobsFragment = new JobsFragment();
+        dashboardFragment = new DashboardFragment();
+        meetingFragment = new MeetingFragment();
+
+
+        groupDetailedMenuAdapter.addFragment(userFragment, "USERS");
+        groupDetailedMenuAdapter.addFragment(jobsFragment, "JOBS");
+        groupDetailedMenuAdapter.addFragment(dashboardFragment, "DASHBOARD");
+        groupDetailedMenuAdapter.addFragment(meetingFragment, "MEETINGS");
         viewPager.setAdapter(groupDetailedMenuAdapter);
 
         // startActivity(new Intent(this, GroupListMenuActivity.class));
@@ -49,15 +61,18 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
         // TODO add user!
         try {
             sqlDatabaseManager.getGroupUserMappingDatabaseManager().addUserToCurrentGroup(username);
+            Toast.makeText(getBaseContext(), "Added " + username , Toast.LENGTH_SHORT).show();
+            userFragment.addUserToRecyclerView(sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroupUsernames());
         } catch (Exception e) {
-//            toast
+            Toast.makeText(getBaseContext(), "error adding!" , Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(getBaseContext(), "Added " + username , Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void addJob(String name) {
         sqlDatabaseManager.getGroupJobMappingDatabaseManager().addJobByName(name);
+        jobsFragment.addJobToRecyclerView(sqlDatabaseManager.getGroupJobMappingDatabaseManager().getJobsOfCurrentGroup());
 
     }
 }

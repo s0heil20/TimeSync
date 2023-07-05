@@ -83,7 +83,7 @@ public class SQLDatabaseManager extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(assignedJobDatabaseManager.createTableString());
         sqLiteDatabase.execSQL(meetingDatabaseManager.createTableString());
         sqLiteDatabase.execSQL(meetingChoiceDatabaseManager.createTableString());
-        sqLiteDatabase.execSQL(meetingChoiceDatabaseManager.createTableString());
+        sqLiteDatabase.execSQL(meetingCandidateTimeDatabaseManager.createTableString());
         sqLiteDatabase.execSQL(timeSpentDatabaseManager.createTableString());
         sqLiteDatabase.execSQL(groupJobMappingDatabaseManager.createTableString());
     }

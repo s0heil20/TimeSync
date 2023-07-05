@@ -15,12 +15,14 @@ public class JobsFragmentAdapter extends RecyclerView.Adapter<JobsFragmentViewHo
     private Context context;
     private List<JobListItem> items;
     private SelectJobsListItemInterface listener;
+    private boolean isLeader;
 
 
     public JobsFragmentAdapter(Context context, List<JobListItem> items, boolean isLeader, SelectJobsListItemInterface listener) {
         this.context = context;
         this.items = items;
         this.listener = listener;
+        this.isLeader = isLeader;
     }
 
     @Override
@@ -31,12 +33,14 @@ public class JobsFragmentAdapter extends RecyclerView.Adapter<JobsFragmentViewHo
     @Override
     public void onBindViewHolder(JobsFragmentViewHolder holder, int position) {
         holder.jobNameTextView.setText(items.get(position).getName());
-        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClicked(items.get(holder.getAdapterPosition()));
-            }
-        });
+        if (isLeader) {
+            holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClicked(items.get(holder.getAdapterPosition()));
+                }
+            });
+        }
     }
 
     @Override

@@ -27,6 +27,7 @@ public class UsersFragment extends Fragment  {
     private FloatingActionButton floatingActionButton;
     private UsersFragmentAdapter adapter;
     private SQLDatabaseManager sqlDatabaseManager;
+    private boolean isLeader;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +40,8 @@ public class UsersFragment extends Fragment  {
     public void onViewCreated(View view,Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
+        isLeader = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUsername() == sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername();
+
 
         recyclerView = view.findViewById(R.id.usersListRecyclerView);
         floatingActionButton = view.findViewById(R.id.floatingActionButtonUsersListMenu);
@@ -60,7 +63,7 @@ public class UsersFragment extends Fragment  {
         });
     }
 
-    private void addUserToRecyclerView(List<String> userList) {
+    public void addUserToRecyclerView(List<String> userList) {
         List<UserListItem> items = new ArrayList<>();
         for (String user : userList) {
             items.add(new UserListItem(user));

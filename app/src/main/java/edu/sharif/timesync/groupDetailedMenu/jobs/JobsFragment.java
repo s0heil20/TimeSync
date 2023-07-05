@@ -29,6 +29,7 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
     private JobsFragmentAdapter adapter;
     private FloatingActionButton floatingActionButton;
     private SQLDatabaseManager sqlDatabaseManager;
+    private boolean isLeader;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +42,8 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
     public void onViewCreated(View view,Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
+        isLeader = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUsername().equals(sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername());
+
         floatingActionButton = view.findViewById(R.id.floatingActionButtonJobsListMenu);
 
         recyclerView = view.findViewById(R.id.jobsListRecyclerView);
@@ -52,7 +55,12 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
     }
 
     private void configureFloatingActionButton(View view) {
+        if (!isLeader) {
+            floatingActionButton.hide();
+            return;
+        }
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(),"CLICKED ON FLOAT!",Toast.LENGTH_SHORT).show();
@@ -63,14 +71,14 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
     }
 
 
-    private void addJobToRecyclerView(List<String> jobList) {
+    public void addJobToRecyclerView(List<String> jobList) {
         // TODO!
         List<JobListItem> items = new ArrayList<>();
         for (String job : jobList) {
             items.add(new JobListItem(job));
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new JobsFragmentAdapter(getContext(), items, false, this);
+        adapter = new JobsFragmentAdapter(getContext(), items, isLeader, this);
         recyclerView.setAdapter(adapter);
     }
 
