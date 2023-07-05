@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.sharif.timesync.R;
+import edu.sharif.timesync.database.SQLDatabaseManager;
 import edu.sharif.timesync.entity.Group;
 
 public class GroupListMenuActivity extends AppCompatActivity implements SelectGroupListItemInterface, GroupNameDialog.GroupDialogListener {
@@ -35,12 +36,12 @@ public class GroupListMenuActivity extends AppCompatActivity implements SelectGr
         addGroupToRecyclerView(new ArrayList<>());
     }
 
-    private void configureFloatingActionButton(){
+    private void configureFloatingActionButton() {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO!
-                Toast.makeText(getBaseContext(),"CLICKED ON FLOAT!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "CLICKED ON FLOAT!", Toast.LENGTH_SHORT).show();
                 GroupNameDialog dialog = new GroupNameDialog();
                 dialog.show(getSupportFragmentManager(), "create dialog!");
             }
@@ -65,7 +66,13 @@ public class GroupListMenuActivity extends AppCompatActivity implements SelectGr
 
     @Override
     public void addGroup(String groupName) {
-        // TODO add group!
-        Toast.makeText(getBaseContext(), "ADDED " + groupName, Toast.LENGTH_SHORT).show();
+        SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
+        boolean result = sqlDatabaseManager.getGroupDatabaseManager().addGroupByName(new Group(groupName, sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser()));
+
+        if (!result) {
+            Toast.makeText(getBaseContext(), groupName + " ALREADY EXISTS", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getBaseContext(), "ADDED " + groupName, Toast.LENGTH_SHORT).show();
+        }
     }
 }
