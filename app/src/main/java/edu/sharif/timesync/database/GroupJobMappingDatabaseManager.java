@@ -38,7 +38,7 @@ public class GroupJobMappingDatabaseManager implements EntityDatabaseManager {
                 .append(GROUP_ID_FIELD)
                 .append(" INTEGER PRIMARY KEY AUTOINCREMENT, ")
                 .append(GROUP_NAME_FIELD)
-                .append(" TEXT NOT NULL UNIQUE, ")
+                .append(" TEXT NOT NULL, ")
                 .append(JOB_NAME_FIELD)
                 .append(" TEXT NOT NULL)");
 
