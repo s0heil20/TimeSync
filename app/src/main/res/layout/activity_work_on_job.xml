@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingTop="50dp"
+                android:paddingTop="90dp"
                 android:textSize="28sp"/>
 
             <Button
@@ -33,7 +33,7 @@
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:text="Start" />
 
             <Button
@@ -50,7 +50,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="70dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -67,11 +67,48 @@
                 android:id="@+id/setManuallyButton"
                 android:layout_width="200dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:gravity="center"
                 android:text="Set Manually" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="50dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/baseline_access_alarm_24" />
+
+
+            <Switch
+                android:id="@+id/chooseSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/baseline_keyboard_24" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/submitTimeButton"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center"
+            android:text="Submit" />
 
 
     </LinearLayout>
