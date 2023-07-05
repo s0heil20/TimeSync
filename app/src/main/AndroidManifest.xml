@@ -25,6 +25,7 @@
         <activity android:name=".groupListMenu.GroupListMenuActivity"/>
         <activity android:name=".groupDetailedMenu.GroupDetailedMenuActivity"/>
         <activity android:name=".workOnJob.WorkOnJobActivity"/>
+        <activity android:name=".assignUserToJob.AssignUserToJobActivity"/>
     </application>
 
 </manifest>
