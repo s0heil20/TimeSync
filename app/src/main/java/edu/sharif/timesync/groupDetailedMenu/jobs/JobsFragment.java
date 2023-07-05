@@ -1,5 +1,6 @@
 package edu.sharif.timesync.groupDetailedMenu.jobs;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,12 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.sharif.timesync.R;
+import edu.sharif.timesync.assignUserToJob.AssignUserToJobActivity;
+import edu.sharif.timesync.database.SQLDatabaseManager;
 import edu.sharif.timesync.entity.Job;
 
 public class JobsFragment extends Fragment implements SelectJobsListItemInterface {
 
     private RecyclerView recyclerView;
     private JobsFragmentAdapter adapter;
+    private SQLDatabaseManager sqlDatabaseManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,18 +36,22 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
 
         recyclerView = view.findViewById(R.id.jobsListRecyclerView);
 
 
-        addJobToRecyclerView(new ArrayList<>());
+        // TODO!
+        addJobToRecyclerView(sqlDatabaseManager.getJobDatabaseManager().getCurrentUsersJobs());
     }
 
 
     private void addJobToRecyclerView(List<Job> jobList) {
         // TODO!
         List<JobListItem> items = new ArrayList<>();
-        items.add(new JobListItem("TESTING Job"));
+        for (Job job : jobList) {
+            items.add(new JobListItem(job.getName()));
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new JobsFragmentAdapter(getContext(), items, false, this);
         recyclerView.setAdapter(adapter);
@@ -51,7 +59,8 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
 
     @Override
     public void onItemClicked(JobListItem jobListItem) {
-        Toast.makeText(getContext(), "TEST TOAST", Toast.LENGTH_SHORT).show();
-        // TODO start next activity
+        Intent intent = new Intent(getContext(), AssignUserToJobActivity.class);
+        intent.putExtra("name", jobListItem.getName());
+        startActivity(intent);
     }
 }

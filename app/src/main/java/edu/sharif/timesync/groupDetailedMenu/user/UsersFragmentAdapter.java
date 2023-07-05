@@ -2,6 +2,7 @@ package edu.sharif.timesync.groupDetailedMenu.user;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,11 +15,13 @@ import edu.sharif.timesync.R;
 public class UsersFragmentAdapter extends RecyclerView.Adapter<UsersFragmentViewHolder> {
     private Context context;
     private List<UserListItem> items;
+    private String leaderUsername;
 
 
-    public UsersFragmentAdapter(Context context, List<UserListItem> items, boolean isLeader) {
+    public UsersFragmentAdapter(Context context, List<UserListItem> items, String leaderUsername) {
         this.context = context;
         this.items = items;
+        this.leaderUsername = leaderUsername;
     }
 
     @Override
@@ -29,7 +32,9 @@ public class UsersFragmentAdapter extends RecyclerView.Adapter<UsersFragmentView
     @Override
     public void onBindViewHolder(UsersFragmentViewHolder holder, int position) {
         holder.usernameTextView.setText(items.get(position).getUsername());
-        // TODO hide image if leader!
+        if(items.get(position).getUsername() != this.leaderUsername) {
+            holder.isLeaderImageView.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

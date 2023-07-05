@@ -9,20 +9,40 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.sharif.timesync.R;
+import edu.sharif.timesync.database.SQLDatabaseManager;
+import edu.sharif.timesync.entity.User;
 
 
 public class AssignUserToJobActivity extends AppCompatActivity {
 
     private ListView usersList;
     private ArrayAdapter<String> adapter;
-    private String[] usernames = {"user1", "user2"};
+    private ArrayList<String> usernames = new ArrayList<>();
+    private String jobName;
     private Button submitButton;
+    private SQLDatabaseManager sqlDatabaseManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String value = extras.getString("name");
+            jobName = value;
+        }
+
+        List<User> currentGroupUsers = sqlDatabaseManager.getGroupDatabaseManager().getCurrentGroupUsers();
+        for (User currentGroupUser : currentGroupUsers) {
+            usernames.add(currentGroupUser.getUsername());
+        }
+
         setContentView(R.layout.activity_assign_user_to_job);
         usersList = findViewById(R.id.usersListViewAssignUserToJobMenu);
+
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,usernames);
         usersList.setAdapter(adapter);
         configureSubmitButton();
@@ -34,13 +54,14 @@ public class AssignUserToJobActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String usersSelected = "Users selected: \n";
+                ArrayList<String> usersSelected = new ArrayList<>();
                 for (int i = 0;i < usersList.getCount();i++){
                     if(usersList.isItemChecked(i)) {
-                        usersSelected += usersList.getItemAtPosition(i)+ " ";
+                        usersSelected.add(usersList.getItemAtPosition(i)+"");
                     }
                 }
-                Toast.makeText(getBaseContext(), usersSelected, Toast.LENGTH_LONG).show();
+                sqlDatabaseManager.getJobDatabaseManager().assignUsersToJobByName(usersSelected, jobName);
+                Toast.makeText(getBaseContext(), "Users Added", Toast.LENGTH_SHORT).show();
             }
         });
     }

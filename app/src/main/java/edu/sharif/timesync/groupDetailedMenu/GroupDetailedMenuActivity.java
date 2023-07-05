@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import edu.sharif.timesync.R;
+import edu.sharif.timesync.database.SQLDatabaseManager;
 import edu.sharif.timesync.groupDetailedMenu.dashboard.DashboardFragment;
 import edu.sharif.timesync.groupDetailedMenu.jobs.JobsFragment;
 import edu.sharif.timesync.groupDetailedMenu.meeting.MeetingFragment;
@@ -20,9 +21,11 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private SQLDatabaseManager sqlDatabaseManager;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_detailed_menu);
+        sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
 
         tabLayout = findViewById(R.id.mainTabLayout);
         viewPager = findViewById(R.id.mainViewPager);
@@ -43,7 +46,8 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
     @Override
     public void addUser(String username) {
         // TODO add user!
-        Toast.makeText(getBaseContext(), "ADDED " + username, Toast.LENGTH_SHORT).show();
+        sqlDatabaseManager.getGroupDatabaseManager().addUserToCurrentGroup(username);
+        Toast.makeText(getBaseContext(), "Added " + username , Toast.LENGTH_SHORT).show();
     }
 
 

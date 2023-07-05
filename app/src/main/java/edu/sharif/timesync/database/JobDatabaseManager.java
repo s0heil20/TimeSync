@@ -42,7 +42,7 @@ public class JobDatabaseManager {
         return TABLE_NAME;
     }
 
-    public void assignUsersToJobById(ArrayList<String> usernames, String jobId){
+    public void assignUsersToJobByName(ArrayList<String> usernames, String jobName){
 
     }
 

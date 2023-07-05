@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.sharif.timesync.R;
+import edu.sharif.timesync.database.SQLDatabaseManager;
 import edu.sharif.timesync.entity.User;
 
 
@@ -25,6 +26,7 @@ public class UsersFragment extends Fragment  {
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton;
     private UsersFragmentAdapter adapter;
+    private SQLDatabaseManager sqlDatabaseManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,13 +38,15 @@ public class UsersFragment extends Fragment  {
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
 
         recyclerView = view.findViewById(R.id.usersListRecyclerView);
         floatingActionButton = view.findViewById(R.id.floatingActionButtonUsersListMenu);
 
         configureFloatingActionButton(view);
 
-        addUserToRecyclerView(new ArrayList<>());
+
+        addUserToRecyclerView(sqlDatabaseManager.getGroupDatabaseManager().getCurrentGroupUsers());
     }
 
     private void configureFloatingActionButton(View view){
@@ -58,11 +62,13 @@ public class UsersFragment extends Fragment  {
     }
 
     private void addUserToRecyclerView(List<User> userList) {
-        // TODO!
+        // TODO isleader!
         List<UserListItem> items = new ArrayList<>();
-        items.add(new UserListItem("TESTING User"));
+        for (User user : userList) {
+            items.add(new UserListItem(user.getUsername()));
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new UsersFragmentAdapter(getContext(), items, false);
+        adapter = new UsersFragmentAdapter(getContext(), items, "leader Username");
         recyclerView.setAdapter(adapter);
     }
 
