@@ -72,9 +72,6 @@ public class GroupJobMappingDatabaseManager implements EntityDatabaseManager {
         return jobs;
     }
 
-    public ArrayList<String> getJobsOfCurrentLoggedInUser() {
-        return null;
-    }
 
     public void addJobByName(String jobName) {
         String groupName = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getName();

@@ -53,6 +53,10 @@ public class UsersFragment extends Fragment  {
     }
 
     private void configureFloatingActionButton(View view){
+        if (!isLeader){
+            floatingActionButton.hide();
+            return;
+        }
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

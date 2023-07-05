@@ -32,7 +32,7 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_detailed_menu);
         sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
-        isLeader = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUsername() == sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername();
+        isLeader = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUsername().equals(sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername());
 
         tabLayout = findViewById(R.id.mainTabLayout);
         viewPager = findViewById(R.id.mainViewPager);

@@ -53,7 +53,7 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
         if (isLeader) {
             addJobToRecyclerView(sqlDatabaseManager.getGroupJobMappingDatabaseManager().getJobsOfCurrentGroup());
         } else {
-            addJobToRecyclerView(sqlDatabaseManager.getGroupJobMappingDatabaseManager().getJobsOfCurrentLoggedInUser());
+            addJobToRecyclerView(sqlDatabaseManager.getJobDatabaseManager().getCurrentUsersJobs());
         }
     }
 
