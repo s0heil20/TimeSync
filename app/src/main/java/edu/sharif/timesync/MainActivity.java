@@ -24,20 +24,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         SharedPreferences sharedPreferences = getSharedPreferences(loginFilename, Context.MODE_PRIVATE);
-//        if (sharedPreferences.contains(username)) {
-//            String storedUsername = sharedPreferences.getString(username, "");
-//            String storedPassword = sharedPreferences.getString(password, "");
-//            SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
-//            User user = new User(storedUsername, storedPassword);
-//            sqlDatabaseManager.getUserDatabaseManager().setLoggedInUser(user);
-//
-//            Intent intent = new Intent(this, GroupListMenuActivity.class);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(intent);
-//        } else {
+        if (sharedPreferences.contains(username)) {
+            String storedUsername = sharedPreferences.getString(username, "");
+            String storedPassword = sharedPreferences.getString(password, "");
+            SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
+            User user = new User(storedUsername, storedPassword);
+            sqlDatabaseManager.getUserDatabaseManager().setLoggedInUser(user);
+
+            Intent intent = new Intent(this, GroupListMenuActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        } else {
             Intent intent = new Intent(this, SignUpSignInActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-//        }
+        }
     }
 }
