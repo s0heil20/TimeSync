@@ -1,5 +1,12 @@
 package edu.sharif.timesync.database;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+
+import edu.sharif.timesync.entity.Job;
+
 public class GroupJobMappingDatabaseManager implements EntityDatabaseManager {
     private static GroupJobMappingDatabaseManager groupJobMappingDatabaseManager;
     private static final String TABLE_NAME = "GroupJobMappingDB";
@@ -40,6 +47,28 @@ public class GroupJobMappingDatabaseManager implements EntityDatabaseManager {
     @Override
     public String getTableName() {
         return TABLE_NAME;
+    }
+
+    public ArrayList<String> getJobsOfCurrentGroup() {
+        String groupName = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getName();
+
+        SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
+
+        StringBuilder sql;
+        sql = new StringBuilder()
+                .append("SELECT * FROM ")
+                .append(TABLE_NAME)
+                .append(" WHERE ")
+                .append(GROUP_NAME_FIELD)
+                .append(" = ? ");
+
+        Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{groupName});
+
+        ArrayList<String> jobs = new ArrayList<>();
+        while (result.moveToNext()) {
+            jobs.add(result.getString(2));
+        }
+        return jobs;
     }
 
 }
