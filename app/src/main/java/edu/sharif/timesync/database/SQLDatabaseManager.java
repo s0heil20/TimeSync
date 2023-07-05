@@ -15,7 +15,7 @@ public class SQLDatabaseManager extends SQLiteOpenHelper {
     private final UserDatabaseManager userDatabaseManager;
     private final GroupUserMappingDatabaseManager groupUserMappingDatabaseManager;
 
-    private final JobDatabaseManager jobDatabaseManager;
+    private final AssignedJobDatabaseManager assignedJobDatabaseManager;
     private final MeetingDatabaseManager meetingDatabaseManager;
     private final TimeSpentDatabaseManager timeSpentDatabaseManager;
     private final GroupJobMappingDatabaseManager groupJobMappingDatabaseManager;
@@ -25,8 +25,8 @@ public class SQLDatabaseManager extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
         userDatabaseManager = UserDatabaseManager.instanceOfUserDatabaseManager(this);
-        groupUserMappingDatabaseManager = GroupUserMappingDatabaseManager.instanceOfGroupDatabaseManager(this);
-        jobDatabaseManager = JobDatabaseManager.instanceOfJobDatabaseManager(this);
+        groupUserMappingDatabaseManager = GroupUserMappingDatabaseManager.instanceOfGroupUserMappingDatabaseManager(this);
+        assignedJobDatabaseManager = AssignedJobDatabaseManager.instanceOfJobDatabaseManager(this);
         meetingDatabaseManager = MeetingDatabaseManager.instanceOfMeetingDatabaseManager(this);
         timeSpentDatabaseManager = TimeSpentDatabaseManager.instanceOfGroupDatabaseManager(this);
         groupJobMappingDatabaseManager = GroupJobMappingDatabaseManager.instanceOfGroupJobMappingDatabaseManager(this);
@@ -43,12 +43,12 @@ public class SQLDatabaseManager extends SQLiteOpenHelper {
         return userDatabaseManager;
     }
 
-    public GroupUserMappingDatabaseManager getGroupDatabaseManager() {
+    public GroupUserMappingDatabaseManager getGroupUserMappingDatabaseManager() {
         return groupUserMappingDatabaseManager;
     }
 
-    public JobDatabaseManager getJobDatabaseManager() {
-        return jobDatabaseManager;
+    public AssignedJobDatabaseManager getJobDatabaseManager() {
+        return assignedJobDatabaseManager;
     }
 
     public MeetingDatabaseManager getMeetingDatabaseManager() {
@@ -67,7 +67,7 @@ public class SQLDatabaseManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(userDatabaseManager.createTableString());
         sqLiteDatabase.execSQL(groupUserMappingDatabaseManager.createTableString());
-        sqLiteDatabase.execSQL(jobDatabaseManager.createTableString());
+        sqLiteDatabase.execSQL(assignedJobDatabaseManager.createTableString());
         sqLiteDatabase.execSQL(meetingDatabaseManager.createTableString());
         sqLiteDatabase.execSQL(timeSpentDatabaseManager.createTableString());
         sqLiteDatabase.execSQL(groupJobMappingDatabaseManager.createTableString());
@@ -77,7 +77,7 @@ public class SQLDatabaseManager extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + userDatabaseManager.getTableName());
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + groupUserMappingDatabaseManager.getTableName());
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + jobDatabaseManager.getTableName());
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + assignedJobDatabaseManager.getTableName());
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + meetingDatabaseManager.getTableName());
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + timeSpentDatabaseManager.getTableName());
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + groupJobMappingDatabaseManager.getTableName());

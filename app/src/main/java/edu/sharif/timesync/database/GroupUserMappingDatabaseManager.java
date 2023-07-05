@@ -18,16 +18,24 @@ public class GroupUserMappingDatabaseManager implements EntityDatabaseManager {
     private static final String GROUP_NAME_FIELD = "group_name";
     private static final String IS_ADMIN_FIELD = "is_admin";
 
-    private static Group currentGroup;
+    private Group currentGroup;
 
 
     private SQLDatabaseManager sqlDatabaseManager;
+
+    public Group getCurrentGroup() {
+        return currentGroup;
+    }
+
+    public void setCurrentGroup(Group currentGroup) {
+        this.currentGroup = currentGroup;
+    }
 
     public GroupUserMappingDatabaseManager(SQLDatabaseManager sqlDatabaseManager) {
         this.sqlDatabaseManager = sqlDatabaseManager;
     }
 
-    public static GroupUserMappingDatabaseManager instanceOfGroupDatabaseManager(SQLDatabaseManager sqlDatabaseManager) {
+    public static GroupUserMappingDatabaseManager instanceOfGroupUserMappingDatabaseManager(SQLDatabaseManager sqlDatabaseManager) {
         if (groupUserMappingDatabaseManager == null) {
             groupUserMappingDatabaseManager = new GroupUserMappingDatabaseManager(sqlDatabaseManager);
         }
