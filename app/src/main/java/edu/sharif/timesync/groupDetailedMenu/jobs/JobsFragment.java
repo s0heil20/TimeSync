@@ -22,6 +22,7 @@ import edu.sharif.timesync.assignUserToJob.AssignUserToJobActivity;
 import edu.sharif.timesync.database.SQLDatabaseManager;
 import edu.sharif.timesync.entity.Job;
 import edu.sharif.timesync.groupDetailedMenu.user.UsernameDialog;
+import edu.sharif.timesync.workOnJob.WorkOnJobActivity;
 
 public class JobsFragment extends Fragment implements SelectJobsListItemInterface {
 
@@ -87,8 +88,14 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
 
     @Override
     public void onItemClicked(JobListItem jobListItem) {
-        Intent intent = new Intent(getContext(), AssignUserToJobActivity.class);
-        intent.putExtra("name", jobListItem.getName());
-        startActivity(intent);
+        if(isLeader) {
+            Intent intent = new Intent(getContext(), AssignUserToJobActivity.class);
+            intent.putExtra("name", jobListItem.getName());
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(getContext(), WorkOnJobActivity.class);
+            intent.putExtra("name", jobListItem.getName());
+            startActivity(intent);
+        }
     }
 }

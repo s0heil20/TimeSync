@@ -33,14 +33,14 @@ public class JobsFragmentAdapter extends RecyclerView.Adapter<JobsFragmentViewHo
     @Override
     public void onBindViewHolder(JobsFragmentViewHolder holder, int position) {
         holder.jobNameTextView.setText(items.get(position).getName());
-        if (isLeader) {
-            holder.mainLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onItemClicked(items.get(holder.getAdapterPosition()));
-                }
-            });
-        }
+
+        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClicked(items.get(holder.getAdapterPosition()));
+            }
+        });
+
     }
 
     @Override
