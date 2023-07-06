@@ -4,6 +4,7 @@ package edu.sharif.timesync.database;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,13 +91,16 @@ public class TimeSpentDatabaseManager {
                 .append(USERNAME_FIELD)
                 .append(" = ?")
                 .append(" GROUP BY ")
-                .append(accordingToField);
+                .append(accordingToField)
+                .append(", ")
+                .append(JOB_NAME_FIELD);
 
         Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{username});
 
         HashMap<String, Integer> times = new HashMap<>();
         while (result.moveToNext()) {
             String jobName = result.getString(0);
+            Log.d("tagtagtag", "getTimeSpentByUser: " + result.getString(1) + " " + result.getInt(2));
             if (groupJobMappingDatabaseManager.doesJobExistInCurrentGroup(jobName)) {
                 times.put(result.getString(1), result.getInt(2));
             }

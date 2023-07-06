@@ -42,7 +42,7 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
     }
 
     @Override
-    public void onViewCreated(View view,Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
 
@@ -70,7 +70,7 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"CLICKED ON FLOAT!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "CLICKED ON FLOAT!", Toast.LENGTH_SHORT).show();
                 JobDialog dialog = new JobDialog();
                 dialog.show(getChildFragmentManager(), "create dialog!");
             }
@@ -81,7 +81,7 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
     public void addJobToRecyclerView(List<String> jobList) {
         List<JobListItem> items = new ArrayList<>();
         for (String job : jobList) {
-            items.add(new JobListItem(job,sqlDatabaseManager.getJobDatabaseManager().getJobUsers(job)) );
+            items.add(new JobListItem(job, sqlDatabaseManager.getJobDatabaseManager().getJobUsers(job)));
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new JobsFragmentAdapter(getContext(), items, isLeader, this);
@@ -90,7 +90,7 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
 
     @Override
     public void onItemClicked(JobListItem jobListItem) {
-        if(isLeader) {
+        if (isLeader) {
             Intent intent = new Intent(getContext(), AssignUserToJobActivity.class);
             intent.putExtra("name", jobListItem.getName());
             startActivity(intent);

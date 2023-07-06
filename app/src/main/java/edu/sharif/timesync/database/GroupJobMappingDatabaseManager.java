@@ -73,7 +73,12 @@ public class GroupJobMappingDatabaseManager implements EntityDatabaseManager {
     }
 
 
-    public void addJobByName(String jobName) {
+    public void addJobByName(String jobName) throws Exception {
+
+        if (doesJobExist(jobName)) {
+            throw new Exception("Job already exits.");
+        }
+
         String groupName = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getName();
 
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getWritableDatabase();
@@ -83,6 +88,21 @@ public class GroupJobMappingDatabaseManager implements EntityDatabaseManager {
         contentValues.put(JOB_NAME_FIELD, jobName);
 
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
+    }
+
+    public boolean doesJobExist(String jobName) {
+        SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
+
+        StringBuilder sql;
+        sql = new StringBuilder()
+                .append("SELECT * FROM ")
+                .append(TABLE_NAME)
+                .append(" WHERE ")
+                .append(JOB_NAME_FIELD)
+                .append(" = ? ");
+
+        Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{jobName});
+        return result.getCount() > 0;
     }
 
     public boolean doesJobExistInCurrentGroup(String jobName) {
