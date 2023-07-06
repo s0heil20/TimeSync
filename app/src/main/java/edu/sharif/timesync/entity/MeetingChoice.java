@@ -28,7 +28,7 @@ public class MeetingChoice {
     }
 
     public static MeetingChoice getMeetingChoiceFromInt(int number){
-        String day = days.get(number * 7);
+        String day = days.get(number%7);
         int index = number/7 + 1;
         return new MeetingChoice(index, day);
     }

@@ -16,12 +16,14 @@ public class MeetingFragmentAdapter extends RecyclerView.Adapter<MeetingFragment
     private Context context;
     private List<MeetingListItem> items;
     private SelectMeetingListItemInterface listener;
+    private boolean isLeader;
 
 
     public MeetingFragmentAdapter(Context context, List<MeetingListItem> items, boolean isLeader, SelectMeetingListItemInterface listener) {
         this.context = context;
         this.items = items;
         this.listener = listener;
+        this.isLeader = isLeader;
     }
 
     @Override
@@ -44,12 +46,14 @@ public class MeetingFragmentAdapter extends RecyclerView.Adapter<MeetingFragment
                 holder.meetingStateImageView.setImageResource(R.drawable.vote_svgrepo_com);
                 break;
         }
-        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClicked(items.get(holder.getAdapterPosition()));
-            }
-        });
+        if(!isLeader) {
+            holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClicked(items.get(holder.getAdapterPosition()));
+                }
+            });
+        }
     }
 
     @Override

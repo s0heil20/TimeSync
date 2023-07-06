@@ -4,18 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:id="@+id/relativeLayoutAssignJobMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="25dp"
+        >
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_margin="10dp"
+            android:id="@+id/cancelButtonAssignUserToJobMenu"
+            android:background="@drawable/custom_green_button_background"
+            android:textColor="@color/white"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentStart="true"
+            android:text="cancel" />
     <androidx.appcompat.widget.AppCompatButton
         android:layout_margin="10dp"
         android:id="@+id/submitButtonAssignUserToJobMenu"
         android:background="@drawable/custom_green_button_background"
         android:textColor="@color/white"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
         android:text="Add" />
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/usersListViewAssignUserToJobMenu"
-        android:layout_below="@+id/submitButtonAssignUserToJobMenu"
+        android:layout_below="@+id/relativeLayoutAssignJobMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:choiceMode="multipleChoice">

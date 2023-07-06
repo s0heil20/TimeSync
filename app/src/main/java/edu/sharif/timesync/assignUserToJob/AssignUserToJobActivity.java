@@ -24,6 +24,7 @@ public class AssignUserToJobActivity extends AppCompatActivity {
     private ArrayList<String> usernames = new ArrayList<>();
     private String jobName;
     private Button submitButton;
+    private Button cancelButton;
     private SQLDatabaseManager sqlDatabaseManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,9 @@ public class AssignUserToJobActivity extends AppCompatActivity {
 
         List<String> currentGroupUsers = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroupUsernames();
         for (String currentGroupUser : currentGroupUsers) {
-            usernames.add(currentGroupUser);
+            if (!currentGroupUser.equals(sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUsername())) {
+                usernames.add(currentGroupUser);
+            }
         }
 
         setContentView(R.layout.activity_assign_user_to_job);
@@ -46,6 +49,7 @@ public class AssignUserToJobActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,usernames);
         usersList.setAdapter(adapter);
         configureSubmitButton();
+        configureCancelButton();
 
     }
 
@@ -62,6 +66,17 @@ public class AssignUserToJobActivity extends AppCompatActivity {
                 }
                 sqlDatabaseManager.getJobDatabaseManager().assignUsersToJobByName(usersSelected, jobName);
                 Toast.makeText(getBaseContext(), "Users Added", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
+
+    private void configureCancelButton(){
+        cancelButton = findViewById(R.id.cancelButtonAssignUserToJobMenu);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

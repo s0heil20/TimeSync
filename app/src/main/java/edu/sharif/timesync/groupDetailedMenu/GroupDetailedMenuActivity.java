@@ -84,11 +84,10 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
     @Override
     public void addMeeting(String name) {
         sqlDatabaseManager.getMeetingDatabaseManager().createNewMeeting(name);
-        //meetingFragment.addMeetingToRecyclerView(sqlDatabaseManager.getMeetingDatabaseManager().getAllMeetingsOfCurrentGroup());
-        meetingFragment.addMeetingToRecyclerView(new ArrayList<>());
         Intent intent = new Intent(this, MeetingActivity.class);
         intent.putExtra("name", name);
         intent.putExtra("isLeader", isLeader);
         startActivity(intent);
+        meetingFragment.addMeetingToRecyclerView(sqlDatabaseManager.getMeetingDatabaseManager().getAllMeetingsOfCurrentGroup());
     }
 }
