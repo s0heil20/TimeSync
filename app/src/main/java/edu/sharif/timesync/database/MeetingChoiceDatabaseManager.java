@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import edu.sharif.timesync.entity.Group;
 import edu.sharif.timesync.entity.Meeting;
 import edu.sharif.timesync.entity.MeetingChoice;
 
@@ -127,8 +128,13 @@ public class MeetingChoiceDatabaseManager {
     }
 
     public boolean isMeetingFinalized(String meetingName) {
-        ArrayList<String> usernames = GroupUserMappingDatabaseManager.
-                instanceOfGroupUserMappingDatabaseManager(sqlDatabaseManager).getCurrentGroupUsernames();
+        GroupUserMappingDatabaseManager groupUserMappingDatabaseManager = GroupUserMappingDatabaseManager.
+                instanceOfGroupUserMappingDatabaseManager(sqlDatabaseManager);
+
+        ArrayList<String> usernames = groupUserMappingDatabaseManager.getCurrentGroupUsernames();
+        String adminUsername = groupUserMappingDatabaseManager.getCurrentGroup().getAdminUsername();
+
+        usernames.remove(adminUsername);
 
         for (String username : usernames) {
             if (!hasUserVoted(meetingName, username)) {
