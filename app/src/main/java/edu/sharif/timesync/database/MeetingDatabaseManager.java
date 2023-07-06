@@ -144,9 +144,12 @@ public class MeetingDatabaseManager {
                     .append(TABLE_NAME)
                     .append(" SET ")
                     .append(IS_FINALIZED_FIELD)
+                    .append(" = ? ")
+                    .append(" WHERE ")
+                    .append(GROUP_NAME_FIELD)
                     .append(" = ? ");
 
-            sqLiteDatabase.rawQuery(sql.toString(), new String[]{1 + ""});
+            sqLiteDatabase.rawQuery(sql.toString(), new String[]{1 + "", currentGroupName});
 
 
         }
