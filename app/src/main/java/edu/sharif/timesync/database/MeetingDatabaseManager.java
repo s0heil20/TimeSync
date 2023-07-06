@@ -163,6 +163,7 @@ public class MeetingDatabaseManager {
                 .append(" = ? ");
 
         Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{meetingName});
+        result.moveToFirst();
 
         return result.getInt(3) == 1;
     }

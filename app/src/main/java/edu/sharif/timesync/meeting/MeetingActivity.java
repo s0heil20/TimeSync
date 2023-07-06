@@ -117,8 +117,6 @@ public class MeetingActivity extends AppCompatActivity {
             }
 
             submitButton = (Button) findViewById(R.id.submitMeetingButton);
-            MeetingDatabaseManager meetingDatabaseManager = MeetingDatabaseManager.instanceOfMeetingDatabaseManager(sqlDatabaseManager);
-
             if (isFinalized) {
                 submitButton.setVisibility(View.INVISIBLE);
             }
@@ -128,11 +126,11 @@ public class MeetingActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View view) {
+                    if (selectedChoices.size() == 0) {
+                        Toast.makeText(MeetingActivity.this, "You must choose at least one time slot!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     if (isLeader) {
-                        if (selectedChoices.size() == 0) {
-                            Toast.makeText(MeetingActivity.this, "You must choose at least one time slot!", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
                         meetingCandidateTimeDatabaseManager.addAllCandidateTime(meetingName, selectedChoices);
 
                     } else {
