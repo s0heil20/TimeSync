@@ -1,9 +1,14 @@
 package edu.sharif.timesync.groupListMenu;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,8 +23,13 @@ import edu.sharif.timesync.R;
 import edu.sharif.timesync.database.SQLDatabaseManager;
 import edu.sharif.timesync.entity.Group;
 import edu.sharif.timesync.groupDetailedMenu.GroupDetailedMenuActivity;
+import edu.sharif.timesync.signUpSignIn.SignUpSignInActivity;
 
 public class GroupListMenuActivity extends AppCompatActivity implements SelectGroupListItemInterface, GroupNameDialog.GroupDialogListener {
+
+    private static final String loginFilename = "login";
+    private static final String username = "username";
+    private static final String password = "password";
 
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton;
@@ -29,7 +39,26 @@ public class GroupListMenuActivity extends AppCompatActivity implements SelectGr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group_list_menu);
+        setContentView(R.layout.toolbar_group_list_menu);
+        ImageView signOut = findViewById(R.id.signOut);
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getBaseContext());
+                sqlDatabaseManager.getUserDatabaseManager().setLoggedInUser(null);
+                SharedPreferences sharedPreferences = getSharedPreferences(loginFilename, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
+
+                Intent intent = new Intent(getBaseContext(), SignUpSignInActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+        TextView pageTitle = findViewById(R.id.pageTitle);
+        pageTitle.setText("Groups");
+
         sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
 
         recyclerView = findViewById(R.id.groupListRecyclerView);
