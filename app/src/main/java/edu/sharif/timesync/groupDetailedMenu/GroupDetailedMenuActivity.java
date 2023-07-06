@@ -1,5 +1,6 @@
 package edu.sharif.timesync.groupDetailedMenu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -9,16 +10,20 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
+
 import edu.sharif.timesync.R;
 import edu.sharif.timesync.database.SQLDatabaseManager;
 import edu.sharif.timesync.groupDetailedMenu.dashboard.DashboardFragment;
 import edu.sharif.timesync.groupDetailedMenu.jobs.JobDialog;
 import edu.sharif.timesync.groupDetailedMenu.jobs.JobsFragment;
+import edu.sharif.timesync.groupDetailedMenu.meeting.MeetingDialog;
 import edu.sharif.timesync.groupDetailedMenu.meeting.MeetingFragment;
 import edu.sharif.timesync.groupDetailedMenu.user.UsernameDialog;
 import edu.sharif.timesync.groupDetailedMenu.user.UsersFragment;
+import edu.sharif.timesync.meeting.MeetingActivity;
 
-public class GroupDetailedMenuActivity extends AppCompatActivity implements UsernameDialog.UsernameDialogListener, JobDialog.jobDialogListener {
+public class GroupDetailedMenuActivity extends AppCompatActivity implements UsernameDialog.UsernameDialogListener, JobDialog.jobDialogListener, MeetingDialog.meetingDialogListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -74,5 +79,16 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
         sqlDatabaseManager.getGroupJobMappingDatabaseManager().addJobByName(name);
         jobsFragment.addJobToRecyclerView(sqlDatabaseManager.getGroupJobMappingDatabaseManager().getJobsOfCurrentGroup());
 
+    }
+
+    @Override
+    public void addMeeting(String name) {
+        sqlDatabaseManager.getMeetingDatabaseManager().createNewMeeting(name);
+        //meetingFragment.addMeetingToRecyclerView(sqlDatabaseManager.getMeetingDatabaseManager().getAllMeetingsOfCurrentGroup());
+        meetingFragment.addMeetingToRecyclerView(new ArrayList<>());
+        Intent intent = new Intent(this, MeetingActivity.class);
+        intent.putExtra("name", name);
+        intent.putExtra("isLeader", isLeader);
+        startActivity(intent);
     }
 }
