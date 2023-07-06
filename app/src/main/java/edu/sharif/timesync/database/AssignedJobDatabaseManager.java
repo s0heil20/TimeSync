@@ -84,4 +84,24 @@ public class AssignedJobDatabaseManager {
         return jobs;
     }
 
+    public ArrayList<String> getJobUsers(String jobName) {
+        SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
+
+        StringBuilder sql;
+        sql = new StringBuilder()
+                .append("SELECT * FROM ")
+                .append(TABLE_NAME)
+                .append(" WHERE ")
+                .append(JOB_NAME_FIELD)
+                .append(" = ? ");
+
+        Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{jobName});
+
+        ArrayList<String> users = new ArrayList<>();
+        while (result.moveToNext()) {
+            users.add(result.getString(2));
+        }
+        return users;
+    }
+
 }
