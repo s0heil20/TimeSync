@@ -113,7 +113,9 @@ public class MeetingChoiceDatabaseManager {
         HashSet<Integer> newUserTimes;
         for (String username : usernames) {
             newUserTimes = getUsersChoicesAsInt(meetingName, username);
-            acceptedTimes.retainAll(newUserTimes);
+            if (!newUserTimes.isEmpty()){
+                acceptedTimes.retainAll(newUserTimes);
+            }
         }
 
         ArrayList<MeetingChoice> meetingChoices = new ArrayList<>();
