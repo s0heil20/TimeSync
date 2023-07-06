@@ -97,6 +97,7 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
             Intent intent = new Intent(this, MeetingActivity.class);
             intent.putExtra("name", name);
             intent.putExtra("isLeader", isLeader);
+            intent.putExtra("isFinalized", false);
             startActivity(intent);
             meetingFragment.addMeetingToRecyclerView(sqlDatabaseManager.getMeetingDatabaseManager().getAllMeetingsOfCurrentGroup());
         } catch (Exception e) {

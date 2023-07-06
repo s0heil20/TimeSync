@@ -49,7 +49,12 @@ public class MeetingActivity extends AppCompatActivity {
             meetingName = extras.getString("name");
             isLeader = extras.getBoolean("isLeader");
 
-            boolean isFinalized = meetingDatabaseManager.isFinalizedFromDatabase(meetingName);
+            boolean isFinalized;
+            if (extras.containsKey("isFinalized")) {
+                isFinalized = extras.getBoolean("isFinalized");
+            } else {
+                isFinalized = meetingDatabaseManager.isFinalizedFromDatabase(meetingName);
+            }
 
             ArrayList<MeetingChoice> clickableChoices;
             ArrayList<MeetingChoice> selectedChoices = new ArrayList<>();
