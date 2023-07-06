@@ -72,11 +72,14 @@ public class TimeSpentDatabaseManager {
     }
 
     private HashMap<String, Integer> getTimeSpentByUser(String username, String accordingToField) {
+        GroupJobMappingDatabaseManager groupJobMappingDatabaseManager = GroupJobMappingDatabaseManager.instanceOfGroupJobMappingDatabaseManager(sqlDatabaseManager);
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
 
         StringBuilder sql;
         sql = new StringBuilder()
                 .append("SELECT ")
+                .append(JOB_NAME_FIELD)
+                .append(", ")
                 .append(accordingToField)
                 .append(", SUM(")
                 .append(TIME_LENGTH_FIELD)
@@ -92,7 +95,10 @@ public class TimeSpentDatabaseManager {
 
         HashMap<String, Integer> times = new HashMap<>();
         while (result.moveToNext()) {
-            times.put(result.getString(0), result.getInt(1));
+            String jobName = result.getString(0);
+            if (groupJobMappingDatabaseManager.doesJobExistInCurrentGroup(jobName)) {
+                times.put(result.getString(1), result.getInt(2));
+            }
         }
         return times;
     }
@@ -107,11 +113,14 @@ public class TimeSpentDatabaseManager {
     }
 
     private HashMap<String, Integer> getAverageTimeSpent(String accordingToField) {
+        GroupJobMappingDatabaseManager groupJobMappingDatabaseManager = GroupJobMappingDatabaseManager.instanceOfGroupJobMappingDatabaseManager(sqlDatabaseManager);
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
 
         StringBuilder sql;
         sql = new StringBuilder()
                 .append("SELECT ")
+                .append(JOB_NAME_FIELD)
+                .append(", ")
                 .append(accordingToField)
                 .append(", AVG(")
                 .append(TIME_LENGTH_FIELD)
@@ -124,7 +133,10 @@ public class TimeSpentDatabaseManager {
 
         HashMap<String, Integer> times = new HashMap<>();
         while (result.moveToNext()) {
-            times.put(result.getString(0), result.getInt(1));
+            String jobName = result.getString(0);
+            if (groupJobMappingDatabaseManager.doesJobExistInCurrentGroup(jobName)) {
+                times.put(result.getString(1), result.getInt(2));
+            }
         }
         return times;
     }
