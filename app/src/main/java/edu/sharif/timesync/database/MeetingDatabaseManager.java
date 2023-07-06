@@ -135,13 +135,11 @@ public class MeetingDatabaseManager {
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getWritableDatabase();
         MeetingChoiceDatabaseManager meetingChoiceDatabaseManager = MeetingChoiceDatabaseManager.instanceOfMeetingChoiceDatabaseManager(sqlDatabaseManager);
         if (meetingChoiceDatabaseManager.isMeetingFinalized(meetingName)) {
-            String currentGroupName = GroupUserMappingDatabaseManager.instanceOfGroupUserMappingDatabaseManager(sqlDatabaseManager)
-                    .getCurrentGroup().getName();
 
             ContentValues contentValues = new ContentValues();
             contentValues.put(IS_FINALIZED_FIELD, "1");
 
-            sqLiteDatabase.update(TABLE_NAME, contentValues, GROUP_NAME_FIELD + " = ?", new String[]{currentGroupName});
+            sqLiteDatabase.update(TABLE_NAME, contentValues, MEETING_NAME_FIELD + " = ?", new String[]{meetingName});
 
         }
     }
