@@ -58,7 +58,7 @@ public class MeetingChoiceDatabaseManager {
         return TABLE_NAME;
     }
 
-    public void addChoiceTime(String meetingName, String username, MeetingChoice meetingChoice) {
+    private void addChoiceTime(String meetingName, String username, MeetingChoice meetingChoice) {
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -67,6 +67,12 @@ public class MeetingChoiceDatabaseManager {
         contentValues.put(CHOICE_VALUE_FIELD, meetingChoice.convertToInt());
 
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
+    }
+
+    public void addAllChoiceTimes(String meetingName, String username, ArrayList<MeetingChoice> meetingChoices) {
+        for (MeetingChoice meetingChoice : meetingChoices) {
+            addChoiceTime(meetingName, username, meetingChoice);
+        }
     }
 
     private HashSet<Integer> getUsersChoicesAsInt(String meetingName, String username) {
@@ -91,7 +97,7 @@ public class MeetingChoiceDatabaseManager {
         return choicesInt;
     }
 
-    public ArrayList<MeetingChoice> getAcceptedMeetingChoice(String meetingName){
+    public ArrayList<MeetingChoice> getAcceptedMeetingChoice(String meetingName) {
         ArrayList<String> usernames = GroupUserMappingDatabaseManager.
                 instanceOfGroupUserMappingDatabaseManager(sqlDatabaseManager).getCurrentGroupUsernames();
 

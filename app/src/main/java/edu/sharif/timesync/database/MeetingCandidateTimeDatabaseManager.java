@@ -1,8 +1,13 @@
 package edu.sharif.timesync.database;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
+import edu.sharif.timesync.entity.Meeting;
 import edu.sharif.timesync.entity.MeetingChoice;
 
 public class MeetingCandidateTimeDatabaseManager {
@@ -37,7 +42,7 @@ public class MeetingCandidateTimeDatabaseManager {
                 .append(" INTEGER PRIMARY KEY AUTOINCREMENT, ")
                 .append(MEETING_NAME_FIELD)
                 .append(" TEXT, ")
-                .append(CHOICE_VALUE_FIELD )
+                .append(CHOICE_VALUE_FIELD)
                 .append(" INT)");
 
         return sql.toString();
@@ -47,7 +52,7 @@ public class MeetingCandidateTimeDatabaseManager {
         return TABLE_NAME;
     }
 
-    public void addCandidateTime(String meetingName, MeetingChoice meetingChoice){
+    public void addCandidateTime(String meetingName, MeetingChoice meetingChoice) {
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -57,9 +62,35 @@ public class MeetingCandidateTimeDatabaseManager {
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
     }
 
-    public void removeCandidateTime(String meetingName, MeetingChoice meetingChoice){
+    public void removeCandidateTime(String meetingName, MeetingChoice meetingChoice) {
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getWritableDatabase();
         sqLiteDatabase.delete(TABLE_NAME, CHOICE_VALUE_FIELD + "=?", new String[]{meetingChoice.convertToInt() + ""});
         sqLiteDatabase.close();
+    }
+
+    public void addAllCandidateTime(String meetingName, ArrayList<MeetingChoice> meetingChoices){
+        for (MeetingChoice meetingChoice : meetingChoices) {
+            addCandidateTime(meetingName, meetingChoice);
+        }
+    }
+
+    public ArrayList<MeetingChoice> getMeetingCandidateTimes(String meetingName) {
+        SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
+
+        StringBuilder sql;
+        sql = new StringBuilder()
+                .append("SELECT * FROM ")
+                .append(TABLE_NAME)
+                .append(" WHERE ")
+                .append(MEETING_NAME_FIELD)
+                .append(" = ?");
+
+        Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{meetingName});
+
+        ArrayList<MeetingChoice> choices = new ArrayList<>();
+        while (result.moveToNext()) {
+            choices.add(MeetingChoice.getMeetingChoiceFromInt(result.getInt(2)));
+        }
+        return choices;
     }
 }

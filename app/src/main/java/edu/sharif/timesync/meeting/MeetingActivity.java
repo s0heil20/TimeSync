@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,53 +15,111 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.sharif.timesync.R;
+import edu.sharif.timesync.database.MeetingCandidateTimeDatabaseManager;
+import edu.sharif.timesync.database.MeetingChoiceDatabaseManager;
+import edu.sharif.timesync.database.SQLDatabaseManager;
+import edu.sharif.timesync.database.UserDatabaseManager;
+import edu.sharif.timesync.entity.Meeting;
 import edu.sharif.timesync.entity.MeetingChoice;
 
 public class MeetingActivity extends AppCompatActivity {
 
 
-    private ArrayList<TextView> textViews;
+    Button submitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meeting);
 
-
-        ArrayList<MeetingChoice> candidateChoices = new ArrayList<>();
-        candidateChoices.add(new MeetingChoice(4, "Saturday"));
-        candidateChoices.add(new MeetingChoice(7, "Friday"));
-        ArrayList<MeetingChoice> selectedChoices = new ArrayList<>();
-
-        Resources r = getResources();
-        String name = getPackageName();
+        SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
+        MeetingCandidateTimeDatabaseManager meetingCandidateTimeDatabaseManager =
+                MeetingCandidateTimeDatabaseManager.instanceOfMeetingCandidateDatabaseManager(sqlDatabaseManager);
+        MeetingChoiceDatabaseManager meetingChoiceDatabaseManager =
+                MeetingChoiceDatabaseManager.instanceOfMeetingChoiceDatabaseManager(sqlDatabaseManager);
+        UserDatabaseManager userDatabaseManager = UserDatabaseManager.instanceOfUserDatabaseManager(sqlDatabaseManager);
 
 
-        for (String day : MeetingChoice.days) {
-            for (int i = 1; i <= 7; i++) {
-                int textId = r.getIdentifier(day + i, "id", name);
-                TextView textView = (TextView) findViewById(textId);
+        Bundle extras = getIntent().getExtras();
+        String meetingName;
+        boolean isLeader;
+        if (extras != null) {
+            meetingName = extras.getString("name");
+            isLeader = extras.getBoolean("isLeader");
 
-                MeetingChoice meetingChoice = new MeetingChoice(i, day);
-                if (!candidateChoices.contains(meetingChoice)) {
-                    textView.setBackgroundColor(Color.parseColor("#bdbdbd"));
-                } else {
-                    textView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (!selectedChoices.contains(meetingChoice)) {
-                                textView.setBackgroundColor(Color.parseColor("#50C878"));
-                                selectedChoices.add(meetingChoice);
-                            } else {
-                                textView.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                                selectedChoices.remove(meetingChoice);
-                            }
-                        }
-                    });
+            ArrayList<MeetingChoice> clickableChoices;
+            ArrayList<MeetingChoice> selectedChoices = new ArrayList<>();
+
+            int defaultColor;
+            int clickableColor;
+            int selectedColor;
+
+
+
+            if (isLeader) {
+                clickableChoices = new ArrayList<>();
+                for (int i = 0; i < 49; i++) {
+                    clickableChoices.add(MeetingChoice.getMeetingChoiceFromInt(i));
                 }
+                defaultColor = Color.parseColor("#FFFFFF");
+                clickableColor = Color.parseColor("#FFFFFF");
+                selectedColor = Color.parseColor("#50C878");
 
+            } else {
+                clickableChoices = meetingCandidateTimeDatabaseManager.getMeetingCandidateTimes(meetingName);
+                defaultColor = Color.parseColor("#bdbdbd");
+                clickableColor = Color.parseColor("#FFFFFF");
+                selectedColor = Color.parseColor("#50C878");
             }
+
+            Resources r = getResources();
+            String name = getPackageName();
+
+
+            for (String day : MeetingChoice.days) {
+                for (int i = 1; i <= 7; i++) {
+                    int textId = r.getIdentifier(day + i, "id", name);
+                    TextView textView = (TextView) findViewById(textId);
+
+                    MeetingChoice meetingChoice = new MeetingChoice(i, day);
+                    if (!clickableChoices.contains(meetingChoice)) {
+                        textView.setBackgroundColor(defaultColor);
+                    } else {
+                        textView.setBackgroundColor(clickableColor);
+                        textView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (!selectedChoices.contains(meetingChoice)) {
+                                    textView.setBackgroundColor(selectedColor);
+                                    selectedChoices.add(meetingChoice);
+                                } else {
+                                    textView.setBackgroundColor(clickableColor);
+                                    selectedChoices.remove(meetingChoice);
+                                }
+                            }
+                        });
+                    }
+
+                }
+            }
+
+            submitButton = (Button) findViewById(R.id.submitMeetingButton);
+
+            submitButton.setOnClickListener(new View.OnClickListener() {
+                final String loggedInUsername = userDatabaseManager.getLoggedInUser().getUsername();
+                @Override
+                public void onClick(View view) {
+                    if (isLeader){
+                        meetingCandidateTimeDatabaseManager.addAllCandidateTime(meetingName, selectedChoices);
+
+                    } else{
+                        meetingChoiceDatabaseManager.addAllChoiceTimes(meetingName, loggedInUsername, selectedChoices);
+                    }
+
+                }
+            });
         }
+
 
     }
 }
