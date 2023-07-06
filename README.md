@@ -44,9 +44,7 @@ In this tab depending on your role:
 Admin can check some members to whom the job is assigned.
 
 ## Working on Job Page
-In this page a member can add a working record for a specific day in the past week using one of the following methods:
-* Chronometer: 
-* Manual: 
+In this page a member can add a working record for a specific day in the past week using one of the following methods: chronometer or manual setting.
 
 ## Meeting Info Page
 In this tab depending on your role:
