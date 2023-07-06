@@ -35,15 +35,16 @@
         />
     </LinearLayout>
 
-    <RelativeLayout
-        android:padding="5dp"
-        android:layout_marginVertical="5dp"
-        android:id="@+id/assignedUsersToJobRelativeLayout"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:id="@+id/assignedUsersToJobLinearLayout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayoutItemJobListMenu">
+        android:layout_below="@+id/linearLayoutItemJobListMenu"
+        android:layout_centerHorizontal="true">
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </RelativeLayout>

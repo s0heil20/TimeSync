@@ -42,7 +42,7 @@ public class AssignUserToJobActivity extends AppCompatActivity {
 
         List<String> currentGroupUsers = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroupUsernames();
         for (String currentGroupUser : currentGroupUsers) {
-            if (!currentGroupUser.equals(sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUsername())) {
+            if (!assignedUsers.contains(currentGroupUser) && !currentGroupUser.equals(sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUsername())) {
                 usernames.add(currentGroupUser);
             }
         }
@@ -51,23 +51,6 @@ public class AssignUserToJobActivity extends AppCompatActivity {
         usersList = findViewById(R.id.usersListViewAssignUserToJobMenu);
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,usernames);
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice, usernames){
-            public View getView(int position, View convertView, ViewGroup parent) {
-
-                if(convertView == null)
-                {
-                    View v = getLayoutInflater().inflate(android.R.layout.simple_list_item_multiple_choice, null);
-                    String[] usernamess = usernames.toArray(new String[usernames.size()]);
-
-                    final CheckedTextView ctv = (CheckedTextView)v.findViewById(android.R.id.text1);
-                    ctv.setText(usernamess[position]);
-                    ctv.setEnabled(false);
-                    return v;
-                }
-
-                return convertView;
-            };
-        };
         usersList.setAdapter(adapter);
         configureSubmitButton();
         configureCancelButton();
