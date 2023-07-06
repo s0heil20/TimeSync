@@ -82,11 +82,11 @@ public class TimeSpentDatabaseManager {
                 .append(TIME_LENGTH_FIELD)
                 .append(") FROM ")
                 .append(TABLE_NAME)
-                .append("GROUP BY ")
-                .append(accordingToField)
                 .append(" WHERE ")
                 .append(USERNAME_FIELD)
-                .append(" = ?");
+                .append(" = ?")
+                .append(" GROUP BY ")
+                .append(accordingToField);
 
         Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{username});
 
@@ -117,7 +117,7 @@ public class TimeSpentDatabaseManager {
                 .append(TIME_LENGTH_FIELD)
                 .append(") FROM ")
                 .append(TABLE_NAME)
-                .append("GROUP BY ")
+                .append(" GROUP BY ")
                 .append(accordingToField);
 
         Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{});

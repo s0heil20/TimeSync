@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,11 +60,13 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemSel
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
+        SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
+        Log.d("TAGTAG", "onViewCreated: " + sqlDatabaseManager.getTimeSpentDatabaseManager().getTimeSpentByUserWeekly("ruzbeh"));
+
 //        onItemSelected(null, view, 0, 0);
 
         barArrayList = new ArrayList<BarEntry>();
 
-        SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
         if (sqlDatabaseManager.getGroupUserMappingDatabaseManager().isLoggedInUserAdminInCurrentGroup()) {
             topFlipper.setDisplayedChild(1);
         } else {
