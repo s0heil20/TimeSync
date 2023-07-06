@@ -113,7 +113,7 @@ public class TimeSpentDatabaseManager {
         sql = new StringBuilder()
                 .append("SELECT ")
                 .append(accordingToField)
-                .append(", SUM(")
+                .append(", AVG(")
                 .append(TIME_LENGTH_FIELD)
                 .append(") FROM ")
                 .append(TABLE_NAME)
