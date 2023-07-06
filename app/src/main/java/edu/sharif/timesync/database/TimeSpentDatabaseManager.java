@@ -72,8 +72,9 @@ public class TimeSpentDatabaseManager {
     }
 
     private HashMap<String, Integer> getTimeSpentByUser(String username, String accordingToField) {
-        GroupJobMappingDatabaseManager groupJobMappingDatabaseManager = GroupJobMappingDatabaseManager.instanceOfGroupJobMappingDatabaseManager(sqlDatabaseManager);
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
+        GroupJobMappingDatabaseManager groupJobMappingDatabaseManager = GroupJobMappingDatabaseManager.instanceOfGroupJobMappingDatabaseManager(sqlDatabaseManager);
+
 
         StringBuilder sql;
         sql = new StringBuilder()
@@ -113,8 +114,10 @@ public class TimeSpentDatabaseManager {
     }
 
     private HashMap<String, Integer> getAverageTimeSpent(String accordingToField) {
-        GroupJobMappingDatabaseManager groupJobMappingDatabaseManager = GroupJobMappingDatabaseManager.instanceOfGroupJobMappingDatabaseManager(sqlDatabaseManager);
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
+        GroupUserMappingDatabaseManager groupUserMappingDatabaseManager = GroupUserMappingDatabaseManager.instanceOfGroupUserMappingDatabaseManager(sqlDatabaseManager);
+        GroupJobMappingDatabaseManager groupJobMappingDatabaseManager = GroupJobMappingDatabaseManager.instanceOfGroupJobMappingDatabaseManager(sqlDatabaseManager);
+
 
         StringBuilder sql;
         sql = new StringBuilder()
@@ -122,7 +125,7 @@ public class TimeSpentDatabaseManager {
                 .append(JOB_NAME_FIELD)
                 .append(", ")
                 .append(accordingToField)
-                .append(", AVG(")
+                .append(", SUM(")
                 .append(TIME_LENGTH_FIELD)
                 .append(") FROM ")
                 .append(TABLE_NAME)
@@ -131,11 +134,13 @@ public class TimeSpentDatabaseManager {
 
         Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{});
 
+
+        int numberOfUsers = groupUserMappingDatabaseManager.getCurrentGroupUsernames().size() - 1;
         HashMap<String, Integer> times = new HashMap<>();
         while (result.moveToNext()) {
             String jobName = result.getString(0);
             if (groupJobMappingDatabaseManager.doesJobExistInCurrentGroup(jobName)) {
-                times.put(result.getString(1), result.getInt(2));
+                times.put(result.getString(1),result.getInt(2) / numberOfUsers);
             }
         }
         return times;
