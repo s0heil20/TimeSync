@@ -23,7 +23,7 @@
         android:orientation="vertical">
         <Spinner
             android:id="@+id/spinSelectedDay"
-            android:layout_width="300dp"
+            android:layout_width="190dp"
             android:layout_height="wrap_content"
 
             android:layout_marginTop="50dp">

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -119,12 +120,20 @@ public class MeetingActivity extends AppCompatActivity {
             submitButton = (Button) findViewById(R.id.submitMeetingButton);
             MeetingDatabaseManager meetingDatabaseManager = MeetingDatabaseManager.instanceOfMeetingDatabaseManager(sqlDatabaseManager);
 
+            if (isFinalized) {
+                submitButton.setVisibility(View.INVISIBLE);
+            }
+
             submitButton.setOnClickListener(new View.OnClickListener() {
                 final String loggedInUsername = userDatabaseManager.getLoggedInUser().getUsername();
 
                 @Override
                 public void onClick(View view) {
                     if (isLeader) {
+                        if (selectedChoices.size() == 0) {
+                            Toast.makeText(MeetingActivity.this, "You must choose at least one time slot!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         meetingCandidateTimeDatabaseManager.addAllCandidateTime(meetingName, selectedChoices);
 
                     } else {

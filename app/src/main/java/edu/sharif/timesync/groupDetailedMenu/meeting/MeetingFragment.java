@@ -93,7 +93,6 @@ public class MeetingFragment extends Fragment implements SelectMeetingListItemIn
 
     @Override
     public void onItemClicked(MeetingListItem meetingListItem) {
-
             Intent intent = new Intent(getContext(), MeetingActivity.class);
             intent.putExtra("name", meetingListItem.getName());
             intent.putExtra("isLeader", isLeader);
