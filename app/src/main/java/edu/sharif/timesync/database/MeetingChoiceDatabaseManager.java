@@ -101,7 +101,8 @@ public class MeetingChoiceDatabaseManager {
     public ArrayList<MeetingChoice> getAcceptedMeetingChoice(String meetingName) {
         ArrayList<String> usernames = GroupUserMappingDatabaseManager.
                 instanceOfGroupUserMappingDatabaseManager(sqlDatabaseManager).getCurrentGroupUsernames();
-
+        String adminUsername = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUsername();
+        usernames.remove(adminUsername);
         List<Integer> initialList = new ArrayList<>();
 
         for (int i = 0; i < 49; i++) {

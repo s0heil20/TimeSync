@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/custom_tag_layout"
-    android:elevation="5dp"
+
     android:padding="5dp"
-    android:layout_marginHorizontal="5dp"
-    android:layout_marginVertical="5dp">
+    android:layout_margin="10dp"
+    >
 
 
     <TextView
+        android:id="@+id/usernameTagTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/default_filler"

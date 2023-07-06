@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,6 +30,7 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
     private RecyclerView recyclerView;
     private JobsFragmentAdapter adapter;
     private FloatingActionButton floatingActionButton;
+
     private SQLDatabaseManager sqlDatabaseManager;
     private boolean isLeader;
 
@@ -43,6 +45,7 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
     public void onViewCreated(View view,Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
+
         isLeader = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUsername().equals(sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername());
 
         floatingActionButton = view.findViewById(R.id.floatingActionButtonJobsListMenu);
@@ -78,10 +81,10 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
     public void addJobToRecyclerView(List<String> jobList) {
         List<JobListItem> items = new ArrayList<>();
         for (String job : jobList) {
-            items.add(new JobListItem(job));
+            items.add(new JobListItem(job,sqlDatabaseManager.getJobDatabaseManager().getJobUsers(job)) );
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new JobsFragmentAdapter(getContext(), items, isLeader, null,this);
+        adapter = new JobsFragmentAdapter(getContext(), items, isLeader, this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -95,6 +98,16 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
             Intent intent = new Intent(getContext(), WorkOnJobActivity.class);
             intent.putExtra("name", jobListItem.getName());
             startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isLeader) {
+            addJobToRecyclerView(sqlDatabaseManager.getGroupJobMappingDatabaseManager().getJobsOfCurrentGroup());
+        } else {
+            addJobToRecyclerView(sqlDatabaseManager.getJobDatabaseManager().getCurrentUsersJobs());
         }
     }
 }

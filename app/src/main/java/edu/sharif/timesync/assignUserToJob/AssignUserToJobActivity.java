@@ -2,8 +2,10 @@ package edu.sharif.timesync.assignUserToJob;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,15 +32,17 @@ public class AssignUserToJobActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String value = extras.getString("name");
             jobName = value;
         }
+        List<String> assignedUsers = sqlDatabaseManager.getJobDatabaseManager().getJobUsers(jobName);
 
         List<String> currentGroupUsers = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroupUsernames();
         for (String currentGroupUser : currentGroupUsers) {
-            if (!currentGroupUser.equals(sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUsername())) {
+            if (!assignedUsers.contains(currentGroupUser) && !currentGroupUser.equals(sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUsername())) {
                 usernames.add(currentGroupUser);
             }
         }

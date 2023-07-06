@@ -9,7 +9,8 @@
     <color name="grey">#32000000</color>
     <color name="darkBlueBG">#7895CB</color>
     <color name="lightBlueBG">#C5DFF8</color>
-    <color name="lightGrey">#A8A8A8</color>
+    <color name="lightGrey">#DDDDDD</color>
     <color name="gold">#FFAA00</color>
+    <color name="darkGrey">#595959</color>
 
 </resources>
