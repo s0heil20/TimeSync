@@ -7,12 +7,20 @@
 
 
     <EditText
+        android:background="@drawable/custom_input"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingVertical="5dp"
         android:id="@+id/groupNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/group_name"
         android:inputType="text"
-        android:autofillHints="group name" />
+        android:autofillHints="group name"
+        android:drawableStart="@drawable/user_groups_svgrepo_com"
+        android:drawablePadding="12dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="5dp"/>
 
 
 </RelativeLayout>

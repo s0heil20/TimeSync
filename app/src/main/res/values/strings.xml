@@ -11,7 +11,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="already_have_an_account">Already have an Account?</string>
-    <string name="group_name">Group Name!</string>
+    <string name="group_name">Group Name</string>
     <string name="select">Select</string>
     <string name="sign_out">signOut</string>
 </resources>

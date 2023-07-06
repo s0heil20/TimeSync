@@ -80,7 +80,11 @@ public class MeetingFragment extends Fragment implements SelectMeetingListItemIn
 
         List<MeetingListItem> items = new ArrayList<>();
         for (Meeting meeting : meetings) {
-            items.add(new MeetingListItem(meeting.getName(), meeting.getMeetingState()));
+            if (isLeader && (meeting.getMeetingState() == MeetingState.PENDING_NOT_VOTED || meeting.getMeetingState() == MeetingState.PENDING_VOTED)){
+                items.add(new MeetingListItem(meeting.getName(), MeetingState.PENDING_VOTED));
+            } else {
+                items.add(new MeetingListItem(meeting.getName(), meeting.getMeetingState()));
+            }
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MeetingFragmentAdapter(getContext(), items, false, this);
