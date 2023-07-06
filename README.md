@@ -37,14 +37,19 @@ In this tab depending on your role:
 
 ### Meetings Tab
 In this tab depending on your role:
-* As an admin: 
-* As a member: 
+* As an admin: You can create new meetings
+* As a member: You can select one of the existing, non-finalized meetings to take part in
 
 ## Job Assignment Page
-Customize the app here!
+Admin can check some members to whom the job is assigned.
 
 ## Working on Job Page
-Change user profile attributes here!
+In this page a member can add a working record for a specific day in the past week using one of the following methods:
+* Chronometer: 
+* Manual: 
 
 ## Meeting Info Page
-You can see a list of purchases that you have made in this menu!
+In this tab depending on your role:
+* As an admin: You can mark candidate time periods
+* As a member: Among candidated periods, ou can mark the time during which you are availabe
+After every group member voted, the meeting time is finalized and all users can see agreed time periods.
