@@ -45,7 +45,7 @@ public class WorkOnJobActivity extends AppCompatActivity implements AdapterView.
 
     String jobName;
 
-    String day;
+    String day = "Saturday";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,6 +196,6 @@ public class WorkOnJobActivity extends AppCompatActivity implements AdapterView.
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+        day = "Saturday";
     }
 }

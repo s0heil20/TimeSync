@@ -79,7 +79,10 @@ public class AssignedJobDatabaseManager {
 
         ArrayList<String> jobs = new ArrayList<>();
         while (result.moveToNext()) {
-            jobs.add(result.getString(1));
+            String jobName = result.getString(1);
+            if (sqlDatabaseManager.getGroupJobMappingDatabaseManager().doesJobExistInCurrentGroup(jobName)) {
+                jobs.add(jobName);
+            }
         }
         return jobs;
     }

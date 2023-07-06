@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -130,15 +131,16 @@ public class DashboardFragment extends Fragment {
     }
 
     private void setUpWeekChart(String username) {
-        Log.d("mmmmmmmmmmmmmmmmmmmmmmmmmmm", "onItemSelected: clicked week");
         SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
-
         HashMap<String, Integer> hashMap;
+
         if (username.equals("--AVERAGE--")) {
             hashMap = sqlDatabaseManager.getTimeSpentDatabaseManager().getAverageTimeSpentByCurrentGroupWeekly();
         } else {
             hashMap = sqlDatabaseManager.getTimeSpentDatabaseManager().getTimeSpentByUserWeekly(username);
         }
+
+        Log.d("kkkkkkkkkkkkkkkkkkkkkkkk", "setUpWeekChart: " + hashMap);
 
         barArrayList.clear();
         ArrayList<Integer> arrayList = getWeekTimeInOrder(hashMap);
@@ -181,11 +183,11 @@ public class DashboardFragment extends Fragment {
         }
 
         barArrayList.clear();
-        ArrayList<String> jobs = new ArrayList<>();
+        ArrayList<String> jobs = sqlDatabaseManager.getGroupJobMappingDatabaseManager().getJobsOfCurrentGroup();
         int i = 0;
-        for (Map.Entry<String, Integer> e : hashMap.entrySet()) {
-            barArrayList.add(new BarEntry(i++, e.getValue()));
-            jobs.add(e.getKey());
+        for (String job : jobs) {
+            barArrayList.add(new BarEntry(i, hashMap.get(job) == null ? Integer.valueOf(0) : hashMap.get(job)));
+            i += 1;
         }
 
         BarDataSet barDataSet = new BarDataSet(barArrayList, "Jobs Report");
@@ -199,6 +201,7 @@ public class DashboardFragment extends Fragment {
         barDataSet.setValueTextSize(10f);
 
         barChart.getXAxis().setLabelCount(jobs.size());
+        Log.d("TAG", "setUpJobsChart: " + jobs);
         barChart.getXAxis().setValueFormatter(new com.github.mikephil.charting.formatter.IndexAxisValueFormatter(jobs));
         barChart.getDescription().setEnabled(false);
         barChart.getAxisLeft().setDrawLabels(false);
