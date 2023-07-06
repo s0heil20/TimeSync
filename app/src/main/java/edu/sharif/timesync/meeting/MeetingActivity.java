@@ -132,11 +132,13 @@ public class MeetingActivity extends AppCompatActivity {
                     }
                     if (isLeader) {
                         meetingCandidateTimeDatabaseManager.addAllCandidateTime(meetingName, selectedChoices);
+                        meetingDatabaseManager.createNewMeeting(meetingName);
 
                     } else {
                         meetingChoiceDatabaseManager.addAllChoiceTimes(meetingName, loggedInUsername, selectedChoices);
                     }
                     meetingDatabaseManager.finalizeMeetingIfFinalized(meetingName);
+
                     finish();
                 }
             });

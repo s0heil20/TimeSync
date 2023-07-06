@@ -70,7 +70,7 @@ public class MeetingDatabaseManager {
 
     }
 
-    public boolean createNewMeeting(String meetingName) throws Exception {
+    public void testCreateNewMeeting(String meetingName) throws Exception {
         if (doesMeetingExists(meetingName)) {
             throw new Exception("meeting already exists");
         }
@@ -79,8 +79,9 @@ public class MeetingDatabaseManager {
         if (usernames.size() <= 1) {
             throw new Exception("this group doesn't have any member except you!");
         }
+    }
 
-
+    public boolean createNewMeeting(String meetingName){
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getWritableDatabase();
         String groupName = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getName();
 

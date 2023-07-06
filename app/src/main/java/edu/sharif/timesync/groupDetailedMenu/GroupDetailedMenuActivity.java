@@ -33,6 +33,7 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
     private DashboardFragment dashboardFragment;
     private MeetingFragment meetingFragment;
     private boolean isLeader;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_detailed_menu);
@@ -65,10 +66,10 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
     public void addUser(String username) {
         try {
             sqlDatabaseManager.getGroupUserMappingDatabaseManager().addUserToCurrentGroup(username);
-            Toast.makeText(getBaseContext(), "Added " + username , Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "Added " + username, Toast.LENGTH_SHORT).show();
             userFragment.addUserToRecyclerView(sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroupUsernames());
         } catch (Exception e) {
-            Toast.makeText(getBaseContext(), "error adding user: " + e.getMessage() , Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "error adding user: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
     }
@@ -83,7 +84,7 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
                 jobsFragment.addJobToRecyclerView(sqlDatabaseManager.getJobDatabaseManager().getCurrentUsersJobs());
             }
         } catch (Exception e) {
-            Toast.makeText(getBaseContext(), "error creating job: "+e.getMessage() , Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "error creating job: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
 
@@ -92,18 +93,15 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
     @Override
     public void addMeeting(String name) {
         try {
-            sqlDatabaseManager.getMeetingDatabaseManager().createNewMeeting(name);
+            sqlDatabaseManager.getMeetingDatabaseManager().testCreateNewMeeting(name);
             Intent intent = new Intent(this, MeetingActivity.class);
             intent.putExtra("name", name);
             intent.putExtra("isLeader", isLeader);
             startActivity(intent);
             meetingFragment.addMeetingToRecyclerView(sqlDatabaseManager.getMeetingDatabaseManager().getAllMeetingsOfCurrentGroup());
         } catch (Exception e) {
-            Toast.makeText(getBaseContext(), "error creating meeting: "+e.getMessage() , Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "error creating meeting: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
-
-
-
 
 
     }
