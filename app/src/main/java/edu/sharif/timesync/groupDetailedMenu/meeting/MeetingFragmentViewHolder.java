@@ -1,6 +1,7 @@
 package edu.sharif.timesync.groupDetailedMenu.meeting;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import edu.sharif.timesync.R;
 
 public class MeetingFragmentViewHolder extends RecyclerView.ViewHolder {
     public TextView meetingName;
+    public ImageView meetingStateImageView;
 
     public RelativeLayout mainLayout;
 
@@ -19,5 +21,6 @@ public class MeetingFragmentViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         meetingName = itemView.findViewById(R.id.nameMeetingTextView);
         mainLayout = itemView.findViewById(R.id.meetingListItemLayout);
+        meetingStateImageView = itemView.findViewById(R.id.meetingStateImageView);
     }
 }

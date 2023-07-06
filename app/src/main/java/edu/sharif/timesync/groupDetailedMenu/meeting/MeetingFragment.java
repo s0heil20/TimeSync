@@ -25,6 +25,7 @@ import edu.sharif.timesync.database.SQLDatabaseManager;
 
 import edu.sharif.timesync.entity.Meeting;
 
+import edu.sharif.timesync.entity.MeetingState;
 import edu.sharif.timesync.meeting.MeetingActivity;
 
 
@@ -55,8 +56,8 @@ public class MeetingFragment extends Fragment implements SelectMeetingListItemIn
 
 
 
-        //addMeetingToRecyclerView(sqlDatabaseManager.getMeetingDatabaseManager().getAllMeetingsOfCurrentGroup());
-        addMeetingToRecyclerView(new ArrayList<Meeting>());
+        addMeetingToRecyclerView(sqlDatabaseManager.getMeetingDatabaseManager().getAllMeetingsOfCurrentGroup());
+
     }
 
     private void configureFloatingActionButton(View view) {
@@ -78,9 +79,12 @@ public class MeetingFragment extends Fragment implements SelectMeetingListItemIn
     public void addMeetingToRecyclerView(List<Meeting> meetings) {
 
         List<MeetingListItem> items = new ArrayList<>();
-
         for (Meeting meeting : meetings) {
-            items.add(new MeetingListItem(meeting.getName()));
+            if (isLeader && (meeting.getMeetingState() == MeetingState.PENDING_NOT_VOTED || meeting.getMeetingState() == MeetingState.PENDING_VOTED)){
+                items.add(new MeetingListItem(meeting.getName(), MeetingState.PENDING_VOTED));
+            } else {
+                items.add(new MeetingListItem(meeting.getName(), meeting.getMeetingState()));
+            }
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new MeetingFragmentAdapter(getContext(), items, false, this);

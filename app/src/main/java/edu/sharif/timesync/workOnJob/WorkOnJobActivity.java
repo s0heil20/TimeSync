@@ -7,6 +7,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -28,7 +29,7 @@ import edu.sharif.timesync.database.UserDatabaseManager;
 import edu.sharif.timesync.entity.Meeting;
 import edu.sharif.timesync.entity.MeetingChoice;
 
-public class WorkOnJobActivity extends AppCompatActivity {
+public class WorkOnJobActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     int manualHour, manualMinute;
     Chronometer chronometer;
@@ -43,6 +44,8 @@ public class WorkOnJobActivity extends AppCompatActivity {
     long pauseOffset = 0;
 
     String jobName;
+
+    String day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +70,11 @@ public class WorkOnJobActivity extends AppCompatActivity {
         submitButton = (Button) findViewById(R.id.submitTimeButton);
 
 
-        spinSelectedDay = (Spinner) findViewById(R.id.spinSelectedDay);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item_day_picker, MeetingChoice.days);
+        spinSelectedDay = findViewById(R.id.spinSelectedDay);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.days, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinSelectedDay.setAdapter(adapter);
+        spinSelectedDay.setOnItemSelectedListener(this);
 
         setManuallyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,9 +155,6 @@ public class WorkOnJobActivity extends AppCompatActivity {
         String currentUsername = UserDatabaseManager.instanceOfUserDatabaseManager(sqlDatabaseManager)
                 .getLoggedInUser().getUsername();
 
-        String day = (String) spinSelectedDay.getSelectedItem();
-
-
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -186,4 +188,13 @@ public class WorkOnJobActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        day = MeetingChoice.days.get(position);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

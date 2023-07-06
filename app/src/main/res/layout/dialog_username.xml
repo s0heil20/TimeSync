@@ -7,11 +7,19 @@
 
 
     <EditText
+        android:background="@drawable/custom_input"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingVertical="5dp"
         android:id="@+id/usernameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:drawableStart="@drawable/username_icon"
+        android:drawablePadding="12dp"
         android:hint="Username"
         android:inputType="text"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="5dp"
         />
 
 

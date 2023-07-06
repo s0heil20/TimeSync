@@ -7,17 +7,33 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:padding="5dp"
+    android:paddingVertical="10dp"
+
     android:background="@drawable/custom_relative_layout"
     >
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+        <TextView
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:text="Job Name:"
+            android:layout_marginRight="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            />
     <TextView
+        android:textSize="20dp"
         android:text="@string/default_filler"
         android:id="@+id/nameJobListMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+
         />
+    </LinearLayout>
 
 
 

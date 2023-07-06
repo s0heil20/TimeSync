@@ -32,6 +32,18 @@ public class MeetingFragmentAdapter extends RecyclerView.Adapter<MeetingFragment
     @Override
     public void onBindViewHolder(MeetingFragmentViewHolder holder, int position) {
         holder.meetingName.setText(items.get(position).getName());
+
+        switch (items.get(position).getMeetingState()){
+            case FINALIZED:
+                holder.meetingStateImageView.setImageResource(R.drawable.done_svgrepo_com);
+                break;
+            case PENDING_VOTED:
+                holder.meetingStateImageView.setImageResource(R.drawable.pending_icon_clock);
+                break;
+            case PENDING_NOT_VOTED:
+                holder.meetingStateImageView.setImageResource(R.drawable.vote_svgrepo_com);
+                break;
+        }
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
