@@ -4,8 +4,13 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import edu.sharif.timesync.entity.Meeting;
 import edu.sharif.timesync.entity.MeetingChoice;
 
 public class MeetingChoiceDatabaseManager {
@@ -43,7 +48,7 @@ public class MeetingChoiceDatabaseManager {
                 .append(" TEXT, ")
                 .append(USERNAME_FIELD)
                 .append(" TEXT, ")
-                .append(CHOICE_VALUE_FIELD )
+                .append(CHOICE_VALUE_FIELD)
                 .append(" INT)");
 
         return sql.toString();
@@ -53,7 +58,7 @@ public class MeetingChoiceDatabaseManager {
         return TABLE_NAME;
     }
 
-    public void addChoiceTime(String meetingName, String username, MeetingChoice meetingChoice){
+    public void addChoiceTime(String meetingName, String username, MeetingChoice meetingChoice) {
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -64,7 +69,7 @@ public class MeetingChoiceDatabaseManager {
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
     }
 
-    private ArrayList<Integer> getUsersChoicesAsInt(String meetingName, String username){
+    private HashSet<Integer> getUsersChoicesAsInt(String meetingName, String username) {
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
 
         StringBuilder sql;
@@ -79,11 +84,52 @@ public class MeetingChoiceDatabaseManager {
 
         Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{meetingName, username});
 
-        ArrayList<Integer> choicesInt = new ArrayList<>();
+        HashSet<Integer> choicesInt = new HashSet<>();
         while (result.moveToNext()) {
             choicesInt.add(result.getInt(3));
         }
         return choicesInt;
+    }
+
+    public ArrayList<MeetingChoice> getAcceptedMeetingChoice(String meetingName){
+        ArrayList<String> usernames = GroupUserMappingDatabaseManager.
+                instanceOfGroupUserMappingDatabaseManager(sqlDatabaseManager).getCurrentGroupUsernames();
+
+        List<Integer> initialList = new ArrayList<>();
+
+        for (int i = 0; i < 49; i++) {
+            initialList.add(i);
+        }
+
+        HashSet<Integer> acceptedTimes = new HashSet<>(initialList);
+        HashSet<Integer> newUserTimes;
+        for (String username : usernames) {
+            newUserTimes = getUsersChoicesAsInt(meetingName, username);
+            acceptedTimes.retainAll(newUserTimes);
+        }
+
+        ArrayList<MeetingChoice> meetingChoices = new ArrayList<>();
+        for (Integer acceptedTime : acceptedTimes) {
+            meetingChoices.add(MeetingChoice.getMeetingChoiceFromInt(acceptedTime));
+        }
+        return meetingChoices;
+    }
+
+    public boolean hasUserVoted(String meetingName, String username) {
+        HashSet<Integer> userChoices = getUsersChoicesAsInt(meetingName, username);
+        return !userChoices.isEmpty();
+    }
+
+    public boolean isMeetingFinalized(String meetingName) {
+        ArrayList<String> usernames = GroupUserMappingDatabaseManager.
+                instanceOfGroupUserMappingDatabaseManager(sqlDatabaseManager).getCurrentGroupUsernames();
+
+        for (String username : usernames) {
+            if (!hasUserVoted(meetingName, username)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 

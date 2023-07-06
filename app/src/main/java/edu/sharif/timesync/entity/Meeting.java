@@ -5,51 +5,49 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class Meeting {
-    private int meetingId;
     private String name;
-    private Group group;
-    private ArrayList<Date> candidateTimes;
+    private String groupName;
 
-    private HashMap<String, ArrayList<Date>> availableTimesForUsers;
+    private MeetingState meetingState;
+    private ArrayList<MeetingChoice> acceptedChoice;
 
-    public Meeting(int meetingId, String name, Group group, ArrayList<Date> candidateTimes, HashMap<String, ArrayList<Date>> availableTimesForUsers) {
-        this.meetingId = meetingId;
+    public Meeting(String name, String groupName, MeetingState meetingState, ArrayList<MeetingChoice> acceptedChoice) {
         this.name = name;
-        this.group = group;
-        this.candidateTimes = candidateTimes;
-        this.availableTimesForUsers = availableTimesForUsers;
+        this.groupName = groupName;
+        this.meetingState = meetingState;
+        this.acceptedChoice = acceptedChoice;
     }
 
     public String getName() {
         return name;
     }
 
-    public Group getGroup() {
-        return group;
-    }
-
-    public int getMeetingId() {
-        return meetingId;
-    }
-
-    public ArrayList<Date> getCandidateTimes() {
-        return candidateTimes;
+    public String getGroupName() {
+        return groupName;
     }
 
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public MeetingState getMeetingState() {
+        return meetingState;
+    }
+
+    public ArrayList<MeetingChoice> getAcceptedChoice() {
+        return acceptedChoice;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setMeetingId(int meetingId) {
-        this.meetingId = meetingId;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
-    public void setCandidateTimes(ArrayList<Date> candidateTimes) {
-        this.candidateTimes = candidateTimes;
+    public void setMeetingState(MeetingState meetingState) {
+        this.meetingState = meetingState;
+    }
+
+    public void setAcceptedChoice(ArrayList<MeetingChoice> acceptedChoice) {
+        this.acceptedChoice = acceptedChoice;
     }
 }
