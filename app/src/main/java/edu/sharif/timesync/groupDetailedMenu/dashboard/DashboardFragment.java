@@ -2,6 +2,7 @@ package edu.sharif.timesync.groupDetailedMenu.dashboard;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +88,7 @@ public class DashboardFragment extends Fragment {
 
         chartTypeSpinner = view.findViewById(R.id.chartType);
         ArrayAdapter<CharSequence> anotherAdapter = ArrayAdapter.createFromResource(getContext(), R.array.spinner, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        anotherAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chartTypeSpinner.setAdapter(anotherAdapter);
         chartTypeSpinner.setOnItemSelectedListener(onItemSelectedListener);
 
@@ -129,6 +130,7 @@ public class DashboardFragment extends Fragment {
     }
 
     private void setUpWeekChart(String username) {
+        Log.d("mmmmmmmmmmmmmmmmmmmmmmmmmmm", "onItemSelected: clicked week");
         SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
 
         HashMap<String, Integer> hashMap;
@@ -150,7 +152,9 @@ public class DashboardFragment extends Fragment {
 
         BarDataSet barDataSet = new BarDataSet(barArrayList, "Week Report");
         BarData barData = new BarData(barDataSet);
+        barChart.notifyDataSetChanged();
         barChart.setData(barData);
+        barChart.invalidate();
 
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         barDataSet.setValueTextColor(Color.BLACK);
@@ -186,7 +190,9 @@ public class DashboardFragment extends Fragment {
 
         BarDataSet barDataSet = new BarDataSet(barArrayList, "Jobs Report");
         BarData barData = new BarData(barDataSet);
+        barChart.notifyDataSetChanged();
         barChart.setData(barData);
+        barChart.invalidate();
 
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         barDataSet.setValueTextColor(Color.BLACK);

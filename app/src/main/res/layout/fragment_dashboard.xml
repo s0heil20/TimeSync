@@ -15,39 +15,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp" />
 
         <Spinner
             android:id="@+id/chartType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp" />
 
         <ViewFlipper
             android:id="@+id/barChartFlipper"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            >
+            android:layout_marginTop="20dp">
 
             <com.github.mikephil.charting.charts.HorizontalBarChart
                 android:id="@+id/weekChart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="100dp"
                 android:background="@drawable/custom_relative_layout"
-                android:elevation="5dp"
-                android:layout_marginBottom="100dp"/>
+                android:elevation="5dp" />
 
             <com.github.mikephil.charting.charts.HorizontalBarChart
                 android:id="@+id/jobsChart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="100dp"
                 android:background="@drawable/custom_relative_layout"
-                android:elevation="5dp"
-                android:layout_marginBottom="100dp"/>
+                android:elevation="5dp" />
 
         </ViewFlipper>
 
