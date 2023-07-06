@@ -54,9 +54,10 @@ public class MeetingFragment extends Fragment implements SelectMeetingListItemIn
         configureFloatingActionButton(view);
         recyclerView = view.findViewById(R.id.meetingListRecycleView);
 
-
-
-        addMeetingToRecyclerView(sqlDatabaseManager.getMeetingDatabaseManager().getAllMeetingsOfCurrentGroup());
+        // TODO
+        ArrayList<Meeting> meetings = sqlDatabaseManager.getMeetingDatabaseManager().getAllMeetingsOfCurrentGroup();
+        meetings.add(new Meeting("asghar test", "gg", MeetingState.PENDING_NOT_VOTED, null));
+        addMeetingToRecyclerView(meetings);
 
     }
 

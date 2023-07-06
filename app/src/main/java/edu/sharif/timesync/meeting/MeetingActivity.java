@@ -115,7 +115,7 @@ public class MeetingActivity extends AppCompatActivity {
                     } else{
                         meetingChoiceDatabaseManager.addAllChoiceTimes(meetingName, loggedInUsername, selectedChoices);
                     }
-
+                    finish();
                 }
             });
         }
