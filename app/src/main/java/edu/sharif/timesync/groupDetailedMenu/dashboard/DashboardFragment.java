@@ -11,22 +11,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.ViewFlipper;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -36,19 +30,19 @@ import java.util.Map;
 import edu.sharif.timesync.R;
 import edu.sharif.timesync.database.SQLDatabaseManager;
 
-public class DashboardFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class DashboardFragment extends Fragment {
 
-    private ViewFlipper topFlipper;
+    private View myView;
+
     private ViewFlipper barChartFlipper;
-
     private HorizontalBarChart barChart;
     private ArrayList<BarEntry> barArrayList;
-
-    private Spinner spinner;
-
-    private View view;
+    private Spinner userSpinner;
+    private Spinner chartTypeSpinner;
 
     private String[] days = new String[]{"Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"};
+
+    private ArrayList<String> usernames;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,27 +53,105 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemSel
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.view = view;
+        this.myView = view;
 
-        topFlipper = view.findViewById(R.id.topFlipper);
         barChartFlipper = view.findViewById(R.id.barChartFlipper);
 
-        spinner = view.findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.spinner, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        usernames = new ArrayList<>();
 
         SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
 
-        barArrayList = new ArrayList<BarEntry>();
-        onItemSelected(null, view, 0, 0);
+        userSpinner = view.findViewById(R.id.users);
 
-        if (sqlDatabaseManager.getGroupUserMappingDatabaseManager().isLoggedInUserAdminInCurrentGroup()) {
-            topFlipper.setDisplayedChild(1);
+        if (!sqlDatabaseManager.getGroupUserMappingDatabaseManager().isLoggedInUserAdminInCurrentGroup()) {
+            userSpinner.setVisibility(View.GONE);
         } else {
-            topFlipper.setDisplayedChild(0);
+            userSpinner.setVisibility(View.VISIBLE);
+            usernames = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroupUsernames();
+            usernames.remove(sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername());
         }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, usernames);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        userSpinner.setAdapter(adapter);
+        userSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (chartTypeSpinner.getSelectedItem().toString().equals("Week Report")) {
+                    barChartFlipper.setDisplayedChild(0);
+                    barChart = myView.findViewById(R.id.weekChart);
+                    setUpWeekChart(usernames.get(position));
+                } else {
+                    barChartFlipper.setDisplayedChild(1);
+                    barChart = myView.findViewById(R.id.jobsChart);
+                    setUpJobsChart(usernames.get(position));
+                }
+
+            }
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        chartTypeSpinner = view.findViewById(R.id.chartType);
+        ArrayAdapter<CharSequence> anotherAdapter = ArrayAdapter.createFromResource(getContext(), R.array.spinner, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        chartTypeSpinner.setAdapter(anotherAdapter);
+
+        if (!sqlDatabaseManager.getGroupUserMappingDatabaseManager().isLoggedInUserAdminInCurrentGroup()) {
+            chartTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                    if (position == 1) {
+                        barChartFlipper.setDisplayedChild(0);
+                        barChart = myView.findViewById(R.id.weekChart);
+                        setUpWeekChart(sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername());
+                    } else {
+                        barChartFlipper.setDisplayedChild(1);
+                        barChart = myView.findViewById(R.id.jobsChart);
+                        setUpJobsChart(sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername());
+                    }
+
+                }
+
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        } else {
+            chartTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                    if (position == 1) {
+                        barChartFlipper.setDisplayedChild(0);
+                        barChart = myView.findViewById(R.id.weekChart);
+                        setUpWeekChart(userSpinner.getSelectedItem().toString());
+                    } else {
+                        barChartFlipper.setDisplayedChild(1);
+                        barChart = myView.findViewById(R.id.jobsChart);
+                        setUpJobsChart(userSpinner.getSelectedItem().toString());
+                    }
+
+                }
+
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        }
+
+        barArrayList = new ArrayList<BarEntry>();
+
     }
 
     private ArrayList<Integer> getWeekTimeInOrder(HashMap<String, Integer> hashMap) {
@@ -94,9 +166,9 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemSel
         return arrayList;
     }
 
-    private void setUpWeekChart() {
+    private void setUpWeekChart(String username) {
         SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
-        HashMap<String, Integer> hashMap = sqlDatabaseManager.getTimeSpentDatabaseManager().getTimeSpentByUserWeekly(sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername());
+        HashMap<String, Integer> hashMap = sqlDatabaseManager.getTimeSpentDatabaseManager().getTimeSpentByUserWeekly(username);
         barArrayList.clear();
         ArrayList<Integer> arrayList = getWeekTimeInOrder(hashMap);
         barArrayList.add(new BarEntry(0, arrayList.get(0)));
@@ -107,7 +179,7 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemSel
         barArrayList.add(new BarEntry(5, arrayList.get(5)));
         barArrayList.add(new BarEntry(6, arrayList.get(6)));
 
-        Log.d("gggggggggg", "setUpJobsChart: " + barArrayList);
+        Log.d("gggggggggg", "setUpJobsChart: " + username + " " + barArrayList);
 
 
         BarDataSet barDataSet = new BarDataSet(barArrayList, "Week Report");
@@ -128,9 +200,9 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemSel
         barChart.getXAxis().setDrawGridLines(false);
     }
 
-    private void setUpJobsChart() {
+    private void setUpJobsChart(String username) {
         SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
-        HashMap<String, Integer> hashMap = sqlDatabaseManager.getTimeSpentDatabaseManager().getTimeSpentByUserByJobName(sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername());
+        HashMap<String, Integer> hashMap = sqlDatabaseManager.getTimeSpentDatabaseManager().getTimeSpentByUserByJobName(username);
         barArrayList.clear();
         int i = 0;
         ArrayList<String> jobs = new ArrayList<>();
@@ -142,7 +214,7 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemSel
 
 
 
-        Log.d("wtfffffffffffff", "setUpJobsChart: " + jobs + " " + barArrayList);
+        Log.d("wtfffffffffffff", "setUpJobsChart: " + username + " " + jobs + " " + barArrayList);
 
         BarDataSet barDataSet = new BarDataSet(barArrayList, "Jobs Report");
         BarData barData = new BarData(barDataSet);
@@ -162,26 +234,5 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemSel
         barChart.getAxisLeft().setDrawGridLines(false);
         barChart.getXAxis().setDrawGridLines(false);
         Log.d("tttttttttttttttttt", "setUpJobsChart: " + barChart.getXAxis().getLabelCount());
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        if (position == 1) {
-            barChartFlipper.setDisplayedChild(0);
-            barChart = this.view.findViewById(R.id.weekChart);
-            setUpWeekChart();
-        } else {
-            barChartFlipper.setDisplayedChild(1);
-            barChart = this.view.findViewById(R.id.jobsChart);
-            setUpJobsChart();
-            Log.d("xxxxxxxxxxxxx", "onItemSelected: " + barChart);
-
-        }
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
     }
 }
