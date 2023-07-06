@@ -132,25 +132,16 @@ public class MeetingDatabaseManager {
     }
 
     public void finalizeMeetingIfFinalized(String meetingName) {
-        SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
+        SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getWritableDatabase();
         MeetingChoiceDatabaseManager meetingChoiceDatabaseManager = MeetingChoiceDatabaseManager.instanceOfMeetingChoiceDatabaseManager(sqlDatabaseManager);
         if (meetingChoiceDatabaseManager.isMeetingFinalized(meetingName)) {
             String currentGroupName = GroupUserMappingDatabaseManager.instanceOfGroupUserMappingDatabaseManager(sqlDatabaseManager)
                     .getCurrentGroup().getName();
 
-            StringBuilder sql;
-            sql = new StringBuilder()
-                    .append("UPDATE ")
-                    .append(TABLE_NAME)
-                    .append(" SET ")
-                    .append(IS_FINALIZED_FIELD)
-                    .append(" = ? ")
-                    .append(" WHERE ")
-                    .append(GROUP_NAME_FIELD)
-                    .append(" = ? ");
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(IS_FINALIZED_FIELD, "1");
 
-            sqLiteDatabase.rawQuery(sql.toString(), new String[]{1 + "", currentGroupName});
-
+            sqLiteDatabase.update(TABLE_NAME, contentValues, GROUP_NAME_FIELD + " = ?", new String[]{currentGroupName});
 
         }
     }
