@@ -134,7 +134,9 @@ public class TimeSpentDatabaseManager {
                 .append(") FROM ")
                 .append(TABLE_NAME)
                 .append(" GROUP BY ")
-                .append(accordingToField);
+                .append(accordingToField)
+                .append(", ")
+                .append(JOB_NAME_FIELD);
 
         Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{});
 

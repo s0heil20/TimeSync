@@ -183,7 +183,7 @@ public class DashboardFragment extends Fragment {
         }
 
         barArrayList.clear();
-        ArrayList<String> jobs = sqlDatabaseManager.getGroupJobMappingDatabaseManager().getJobsOfCurrentGroup();
+        ArrayList<String> jobs = sqlDatabaseManager.getJobDatabaseManager().getCurrentUsersJobs();
         int i = 0;
         for (String job : jobs) {
             barArrayList.add(new BarEntry(i, hashMap.get(job) == null ? Integer.valueOf(0) : hashMap.get(job)));
