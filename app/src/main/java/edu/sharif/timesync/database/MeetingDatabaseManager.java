@@ -17,7 +17,7 @@ public class MeetingDatabaseManager {
     private static final String MEETING_ID_FIELD = "meeting_id";
     private static final String MEETING_NAME_FIELD = "meeting_name";
     private static final String GROUP_NAME_FIELD = "group_name";
-    private static final String MEETING_STATE = "meeting_state";
+    private static final String IS_FINALIZED_FIELD = "is_finalized";
 
     private SQLDatabaseManager sqlDatabaseManager;
 
@@ -44,7 +44,7 @@ public class MeetingDatabaseManager {
                 .append(" TEXT, ")
                 .append(GROUP_NAME_FIELD)
                 .append(" TEXT, ")
-                .append(MEETING_STATE)
+                .append(IS_FINALIZED_FIELD)
                 .append(" INT)");
 
         return sql.toString();
@@ -65,14 +65,13 @@ public class MeetingDatabaseManager {
                 .append(MEETING_NAME_FIELD)
                 .append(" = ? ");
 
-
         Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{meetingName});
         return result.getCount() > 0;
 
     }
 
-    public boolean createNewMeeting(String meetingName){
-        if (doesMeetingExists(meetingName)){
+    public boolean createNewMeeting(String meetingName) {
+        if (doesMeetingExists(meetingName)) {
             return false;
         }
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getWritableDatabase();
@@ -81,14 +80,14 @@ public class MeetingDatabaseManager {
         ContentValues contentValues = new ContentValues();
         contentValues.put(MEETING_NAME_FIELD, meetingName);
         contentValues.put(GROUP_NAME_FIELD, groupName);
-        contentValues.put(MEETING_STATE, 1);
+        contentValues.put(IS_FINALIZED_FIELD, 0);
 
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
 
         return true;
     }
 
-    public ArrayList<Meeting> getAllMeetingsOfCurrentGroup(){
+    public ArrayList<Meeting> getAllMeetingsOfCurrentGroup() {
         SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
         String currentGroupName = GroupUserMappingDatabaseManager.instanceOfGroupUserMappingDatabaseManager(sqlDatabaseManager)
                 .getCurrentGroup().getName();
@@ -101,22 +100,55 @@ public class MeetingDatabaseManager {
                 .append(GROUP_NAME_FIELD)
                 .append(" = ? ");
 
-
         Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{currentGroupName});
 
         MeetingChoiceDatabaseManager meetingChoiceDatabaseManager = MeetingChoiceDatabaseManager.instanceOfMeetingChoiceDatabaseManager(sqlDatabaseManager);
+        UserDatabaseManager userDatabaseManager = UserDatabaseManager.instanceOfUserDatabaseManager(sqlDatabaseManager);
 
 
         ArrayList<Meeting> meetings = new ArrayList<>();
         while (result.moveToNext()) {
             String meetingName = result.getString(1);
             String groupName = result.getString(2);
-            int meetingStateInt = result.getInt(3);
+            boolean isFinalized = result.getInt(3) == 1;
             ArrayList<MeetingChoice> choices = meetingChoiceDatabaseManager.getAcceptedMeetingChoice(meetingName);
 
-            meetings.add(new Meeting(meetingName, groupName, MeetingState.getMeetingState(meetingStateInt), choices));
+            String loggedInUsername = userDatabaseManager.getLoggedInUser().getUsername();
+
+            MeetingState meetingState;
+            if (isFinalized) {
+                meetingState = MeetingState.FINALIZED;
+            } else {
+                if (meetingChoiceDatabaseManager.hasUserVoted(meetingName, loggedInUsername)) {
+                    meetingState = MeetingState.PENDING_VOTED;
+                } else {
+                    meetingState = MeetingState.PENDING_NOT_VOTED;
+                }
+            }
+
+            meetings.add(new Meeting(meetingName, groupName, meetingState, choices));
         }
         return meetings;
+    }
 
+    public void finalizeMeetingIfFinalized(String meetingName) {
+        SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
+        MeetingChoiceDatabaseManager meetingChoiceDatabaseManager = MeetingChoiceDatabaseManager.instanceOfMeetingChoiceDatabaseManager(sqlDatabaseManager);
+        if (meetingChoiceDatabaseManager.isMeetingFinalized(meetingName)) {
+            String currentGroupName = GroupUserMappingDatabaseManager.instanceOfGroupUserMappingDatabaseManager(sqlDatabaseManager)
+                    .getCurrentGroup().getName();
+
+            StringBuilder sql;
+            sql = new StringBuilder()
+                    .append("UPDATE ")
+                    .append(TABLE_NAME)
+                    .append(" SET ")
+                    .append(IS_FINALIZED_FIELD)
+                    .append(" = ? ");
+
+            sqLiteDatabase.rawQuery(sql.toString(), new String[]{1 + ""});
+
+
+        }
     }
 }

@@ -20,43 +20,40 @@
             <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"/>
 
 
             <ViewFlipper
                 android:id="@+id/barChartFlipper"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="100dp"
+                >
 
                 <com.github.mikephil.charting.charts.HorizontalBarChart
                     android:id="@+id/weekChart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="100dp" />
+                    android:layout_marginHorizontal="20dp"/>
 
                 <com.github.mikephil.charting.charts.HorizontalBarChart
                     android:id="@+id/jobsChart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="100dp" />
+                    android:layout_marginHorizontal="20dp"/>
 
             </ViewFlipper>
 
         </LinearLayout>
 
         <!-- admin -->
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/myUsers"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </LinearLayout>
-
-        <!-- admin's user -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </LinearLayout>
+            android:layout_height="match_parent"/>
 
     </ViewFlipper>
 
