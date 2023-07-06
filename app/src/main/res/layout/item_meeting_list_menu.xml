@@ -7,17 +7,44 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:padding="5dp"
+    android:paddingVertical="10dp"
     android:background="@drawable/custom_relative_layout"
+    android:paddingHorizontal="40dp"
     >
 
+    <ImageView
+        android:id="@+id/meetingStateImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/done_icon"
+        android:layout_centerInParent="true"
+        android:layout_alignParentEnd="true"/>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:textSize="20dp"
+            android:text="Name:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:textStyle="bold"
+            />
+
     <TextView
+        android:textSize="20dp"
         android:text="@string/default_filler"
         android:id="@+id/nameMeetingTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+
         />
+    </LinearLayout>
 
 
 </RelativeLayout>

@@ -13,14 +13,12 @@ public class GroupListViewHolder extends RecyclerView.ViewHolder {
 
     public ImageView isLeaderImageView;
     public TextView groupNameTextView;
-    public TextView groupIdTextView;
     public RelativeLayout mainLayout;
 
     public GroupListViewHolder(View itemView) {
         super(itemView);
         isLeaderImageView = itemView.findViewById(R.id.isLeaderIcon);
         groupNameTextView = itemView.findViewById(R.id.groupName);
-        groupIdTextView = itemView.findViewById(R.id.groupId);
         mainLayout = itemView.findViewById(R.id.groupListItemLayout);
     }
 }
