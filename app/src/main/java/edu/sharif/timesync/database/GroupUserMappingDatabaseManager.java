@@ -186,7 +186,12 @@ public class GroupUserMappingDatabaseManager implements EntityDatabaseManager {
     public void addUserToCurrentGroup(String username) throws Exception {
 
         if (!sqlDatabaseManager.getUserDatabaseManager().doesUsernameExists(new User(username, ""))) {
-            throw new Exception("nadarim!");
+            throw new Exception("User not found!");
+        }
+
+        ArrayList<String> currentGroupUsernames = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroupUsernames();
+        if(currentGroupUsernames.contains(username)){
+            throw new Exception("User already in group!");
         }
 
         String currentGroupName = currentGroup.getName();

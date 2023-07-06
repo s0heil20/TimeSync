@@ -70,7 +70,6 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "CLICKED ON FLOAT!", Toast.LENGTH_SHORT).show();
                 JobDialog dialog = new JobDialog();
                 dialog.show(getChildFragmentManager(), "create dialog!");
             }

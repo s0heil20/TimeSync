@@ -60,7 +60,6 @@ public class UsersFragment extends Fragment  {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"CLICKED ON FLOAT!",Toast.LENGTH_SHORT).show();
                 UsernameDialog dialog = new UsernameDialog();
                 dialog.show(getChildFragmentManager(), "create dialog!");
             }

@@ -69,7 +69,6 @@ public class MeetingFragment extends Fragment implements SelectMeetingListItemIn
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"CLICKED ON FLOAT!",Toast.LENGTH_SHORT).show();
                 MeetingDialog dialog = new MeetingDialog();
                 dialog.show(getChildFragmentManager(), "create dialog!");
             }
