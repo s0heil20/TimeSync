@@ -166,6 +166,7 @@ public class WorkOnJobActivity extends AppCompatActivity implements AdapterView.
                     submitMinute = (int) Math.ceil(pauseOffset / 60000.0);
                 }
                 timeSpentDatabaseManager.assignTimeSpentToJob(jobName, currentUsername, submitMinute, day);
+                finish();
             }
         });
     }
