@@ -59,36 +59,14 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemSel
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-        onItemSelected(new AdapterView<Adapter>(getContext()) {
-            @Override
-            public Adapter getAdapter() {
-                return null;
-            }
-
-            @Override
-            public void setAdapter(Adapter adapter) {
-
-            }
-
-            @Override
-            public View getSelectedView() {
-                return null;
-            }
-
-            @Override
-            public void setSelection(int position) {
-
-            }
-        }, view, 0, 0);
+//        onItemSelected(null, view, 0, 0);
 
         barArrayList = new ArrayList<BarEntry>();
 
         SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
         if (sqlDatabaseManager.getGroupUserMappingDatabaseManager().isLoggedInUserAdminInCurrentGroup()) {
-//            admin mode
             topFlipper.setDisplayedChild(1);
         } else {
-//            user mode
             topFlipper.setDisplayedChild(0);
         }
     }
@@ -97,9 +75,6 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemSel
         SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(getContext());
         HashMap<String, Integer> hashMap = sqlDatabaseManager.getTimeSpentDatabaseManager().getTimeSpentByUserWeekly(sqlDatabaseManager.getUserDatabaseManager().getLoggedInUser().getUsername());
         barArrayList = new ArrayList<BarEntry>();
-//        for () {
-//
-//        }
 
         BarDataSet barDataSet = new BarDataSet(barArrayList, "Week Report");
         BarData barData = new BarData(barDataSet);
@@ -111,7 +86,6 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemSel
     }
 
     private void setUpJobsChart() {
-//        barArrayList
         BarDataSet barDataSet = new BarDataSet(barArrayList, "Jobs Report");
         BarData barData = new BarData(barDataSet);
         barChart.setData(barData);
@@ -124,16 +98,16 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemSel
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        String text = spinner.getSelectedItem().toString();
-        if (text.equals("Week Report")) {
-            barChart = view.findViewById(R.id.weekChart);
-            setUpWeekChart();
-            barChartFlipper.setDisplayedChild(0);
-        } else {
-            barChart = view.findViewById(R.id.jobsChart);
-            setUpJobsChart();
-            barChartFlipper.setDisplayedChild(1);
-        }
+//        String text = spinner.getSelectedItem().toString();
+//        if (text.equals("Week Report")) {
+//            barChart = view.findViewById(R.id.weekChart);
+//            setUpWeekChart();
+//            barChartFlipper.setDisplayedChild(0);
+//        } else {
+//            barChart = view.findViewById(R.id.jobsChart);
+//            setUpJobsChart();
+//            barChartFlipper.setDisplayedChild(1);
+//        }
     }
 
     @Override
