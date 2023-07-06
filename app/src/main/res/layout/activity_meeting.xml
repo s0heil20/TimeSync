@@ -39,9 +39,12 @@
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="1dp"
 
+                    android:id="@+id/staticTimeMeeting"
+                    android:background="@drawable/pattern_background_lines"
+
                     android:layout_marginBottom="1dp"
                     android:layout_weight="1"
-                    android:background="#9651E4"
+
                     android:gravity="center"
                     android:text="Time"
                     android:textColor="@color/white"
@@ -1107,7 +1110,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
 
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="25dp"
             android:background="@drawable/custom_green_button_background"
             android:text="Submit"
             android:textColor="@color/black" />
