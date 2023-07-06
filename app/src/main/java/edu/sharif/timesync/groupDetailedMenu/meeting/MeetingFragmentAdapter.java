@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import edu.sharif.timesync.R;
+import edu.sharif.timesync.entity.MeetingState;
 
 
 public class MeetingFragmentAdapter extends RecyclerView.Adapter<MeetingFragmentViewHolder> {
@@ -46,7 +47,7 @@ public class MeetingFragmentAdapter extends RecyclerView.Adapter<MeetingFragment
                 holder.meetingStateImageView.setImageResource(R.drawable.vote_svgrepo_com);
                 break;
         }
-        if(!isLeader) {
+        if(items.get(position).getMeetingState() != MeetingState.PENDING_VOTED) {
             holder.mainLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

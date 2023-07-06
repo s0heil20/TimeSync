@@ -2,8 +2,10 @@ package edu.sharif.timesync.assignUserToJob;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,11 +32,13 @@ public class AssignUserToJobActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String value = extras.getString("name");
             jobName = value;
         }
+        List<String> assignedUsers = sqlDatabaseManager.getJobDatabaseManager().getJobUsers(jobName);
 
         List<String> currentGroupUsers = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroupUsernames();
         for (String currentGroupUser : currentGroupUsers) {
@@ -47,6 +51,23 @@ public class AssignUserToJobActivity extends AppCompatActivity {
         usersList = findViewById(R.id.usersListViewAssignUserToJobMenu);
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,usernames);
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice, usernames){
+            public View getView(int position, View convertView, ViewGroup parent) {
+
+                if(convertView == null)
+                {
+                    View v = getLayoutInflater().inflate(android.R.layout.simple_list_item_multiple_choice, null);
+                    String[] usernamess = usernames.toArray(new String[usernames.size()]);
+
+                    final CheckedTextView ctv = (CheckedTextView)v.findViewById(android.R.id.text1);
+                    ctv.setText(usernamess[position]);
+                    ctv.setEnabled(false);
+                    return v;
+                }
+
+                return convertView;
+            };
+        };
         usersList.setAdapter(adapter);
         configureSubmitButton();
         configureCancelButton();

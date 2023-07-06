@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +17,7 @@ public class JobsFragmentAdapter extends RecyclerView.Adapter<JobsFragmentViewHo
     private List<JobListItem> items;
     private SelectJobsListItemInterface listener;
     private boolean isLeader;
+    private List<String> assignedUsers;
 
 
     public JobsFragmentAdapter(Context context, List<JobListItem> items, boolean isLeader,List<String> assignedUsers, SelectJobsListItemInterface listener) {
@@ -23,6 +25,7 @@ public class JobsFragmentAdapter extends RecyclerView.Adapter<JobsFragmentViewHo
         this.items = items;
         this.listener = listener;
         this.isLeader = isLeader;
+        this.assignedUsers = assignedUsers;
     }
 
     @Override

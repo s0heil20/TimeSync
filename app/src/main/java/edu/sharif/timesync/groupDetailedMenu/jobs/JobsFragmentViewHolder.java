@@ -20,3 +20,4 @@ public class JobsFragmentViewHolder extends  RecyclerView.ViewHolder{
         mainLayout = itemView.findViewById(R.id.jobsListItemLayout);
     }
 }
+
