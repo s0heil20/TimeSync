@@ -63,13 +63,12 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
 
     @Override
     public void addUser(String username) {
-        // TODO add user!
         try {
             sqlDatabaseManager.getGroupUserMappingDatabaseManager().addUserToCurrentGroup(username);
             Toast.makeText(getBaseContext(), "Added " + username , Toast.LENGTH_SHORT).show();
             userFragment.addUserToRecyclerView(sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroupUsernames());
         } catch (Exception e) {
-            Toast.makeText(getBaseContext(), "error adding!" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "error adding!" + e.getMessage() , Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -77,17 +76,25 @@ public class GroupDetailedMenuActivity extends AppCompatActivity implements User
     @Override
     public void addJob(String name) {
         sqlDatabaseManager.getGroupJobMappingDatabaseManager().addJobByName(name);
-        jobsFragment.addJobToRecyclerView(sqlDatabaseManager.getGroupJobMappingDatabaseManager().getJobsOfCurrentGroup());
+        if (isLeader) {
+            jobsFragment.addJobToRecyclerView(sqlDatabaseManager.getGroupJobMappingDatabaseManager().getJobsOfCurrentGroup());
+        } else {
+            jobsFragment.addJobToRecyclerView(sqlDatabaseManager.getJobDatabaseManager().getCurrentUsersJobs());
+        }
 
     }
 
     @Override
     public void addMeeting(String name) {
-        sqlDatabaseManager.getMeetingDatabaseManager().createNewMeeting(name);
-        Intent intent = new Intent(this, MeetingActivity.class);
-        intent.putExtra("name", name);
-        intent.putExtra("isLeader", isLeader);
-        startActivity(intent);
-        meetingFragment.addMeetingToRecyclerView(sqlDatabaseManager.getMeetingDatabaseManager().getAllMeetingsOfCurrentGroup());
+        boolean isDone = sqlDatabaseManager.getMeetingDatabaseManager().createNewMeeting(name);
+        if (isDone) {
+            Intent intent = new Intent(this, MeetingActivity.class);
+            intent.putExtra("name", name);
+            intent.putExtra("isLeader", isLeader);
+            startActivity(intent);
+            meetingFragment.addMeetingToRecyclerView(sqlDatabaseManager.getMeetingDatabaseManager().getAllMeetingsOfCurrentGroup());
+        } else {
+            Toast.makeText(getBaseContext(), "error creating meeting!" , Toast.LENGTH_SHORT).show();
+        }
     }
 }
