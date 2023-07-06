@@ -36,11 +36,10 @@ public class MeetingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_meeting);
 
         SQLDatabaseManager sqlDatabaseManager = SQLDatabaseManager.instanceOfDatabase(this);
-        MeetingCandidateTimeDatabaseManager meetingCandidateTimeDatabaseManager =
-                MeetingCandidateTimeDatabaseManager.instanceOfMeetingCandidateDatabaseManager(sqlDatabaseManager);
-        MeetingChoiceDatabaseManager meetingChoiceDatabaseManager =
-                MeetingChoiceDatabaseManager.instanceOfMeetingChoiceDatabaseManager(sqlDatabaseManager);
+        MeetingCandidateTimeDatabaseManager meetingCandidateTimeDatabaseManager = sqlDatabaseManager.getMeetingCandidateTimeDatabaseManager();
+        MeetingChoiceDatabaseManager meetingChoiceDatabaseManager = sqlDatabaseManager.getMeetingChoiceDatabaseManager();
         UserDatabaseManager userDatabaseManager = UserDatabaseManager.instanceOfUserDatabaseManager(sqlDatabaseManager);
+        MeetingDatabaseManager meetingDatabaseManager = sqlDatabaseManager.getMeetingDatabaseManager();
 
 
         Bundle extras = getIntent().getExtras();
@@ -50,7 +49,7 @@ public class MeetingActivity extends AppCompatActivity {
             meetingName = extras.getString("name");
             isLeader = extras.getBoolean("isLeader");
 
-            boolean isFinalized = meetingChoiceDatabaseManager.isMeetingFinalized(meetingName);
+            boolean isFinalized = meetingDatabaseManager.isFinalizedFromDatabase(meetingName);
 
             ArrayList<MeetingChoice> clickableChoices;
             ArrayList<MeetingChoice> selectedChoices = new ArrayList<>();

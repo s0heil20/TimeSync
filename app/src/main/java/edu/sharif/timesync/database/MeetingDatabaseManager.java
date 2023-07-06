@@ -150,4 +150,20 @@ public class MeetingDatabaseManager {
 
         }
     }
+
+    public boolean isFinalizedFromDatabase(String meetingName){
+        SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
+
+        StringBuilder sql;
+        sql = new StringBuilder()
+                .append("SELECT * FROM ")
+                .append(TABLE_NAME)
+                .append(" WHERE ")
+                .append(MEETING_NAME_FIELD)
+                .append(" = ? ");
+
+        Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{meetingName});
+
+        return result.getInt(3) == 1;
+    }
 }
