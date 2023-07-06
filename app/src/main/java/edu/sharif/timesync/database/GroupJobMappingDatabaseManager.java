@@ -85,4 +85,23 @@ public class GroupJobMappingDatabaseManager implements EntityDatabaseManager {
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
     }
 
+    public boolean doesJobExistInCurrentGroup(String jobName) {
+        String groupName = sqlDatabaseManager.getGroupUserMappingDatabaseManager().getCurrentGroup().getName();
+
+        SQLiteDatabase sqLiteDatabase = sqlDatabaseManager.getReadableDatabase();
+
+        StringBuilder sql;
+        sql = new StringBuilder()
+                .append("SELECT * FROM ")
+                .append(TABLE_NAME)
+                .append(" WHERE ")
+                .append(GROUP_NAME_FIELD)
+                .append(" = ? AND ")
+                .append(JOB_NAME_FIELD)
+                .append(" = ? ");
+
+        Cursor result = sqLiteDatabase.rawQuery(sql.toString(), new String[]{groupName, jobName});
+        return result.getCount() > 0;
+    }
+
 }

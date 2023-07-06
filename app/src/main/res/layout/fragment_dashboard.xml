@@ -29,19 +29,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="100dp">
+            >
 
             <com.github.mikephil.charting.charts.HorizontalBarChart
                 android:id="@+id/weekChart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="20dp" />
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/custom_relative_layout"
+                android:elevation="5dp"
+                android:layout_marginBottom="100dp"/>
 
             <com.github.mikephil.charting.charts.HorizontalBarChart
                 android:id="@+id/jobsChart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="20dp" />
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/custom_relative_layout"
+                android:elevation="5dp"
+                android:layout_marginBottom="100dp"/>
 
         </ViewFlipper>
 
