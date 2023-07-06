@@ -56,7 +56,6 @@ public class MeetingFragment extends Fragment implements SelectMeetingListItemIn
 
         // TODO
         ArrayList<Meeting> meetings = sqlDatabaseManager.getMeetingDatabaseManager().getAllMeetingsOfCurrentGroup();
-        meetings.add(new Meeting("asghar test", "gg", MeetingState.PENDING_NOT_VOTED, null));
         addMeetingToRecyclerView(meetings);
 
     }
@@ -102,6 +101,13 @@ public class MeetingFragment extends Fragment implements SelectMeetingListItemIn
             intent.putExtra("name", meetingListItem.getName());
             intent.putExtra("isLeader", isLeader);
             startActivity(intent);
+
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        addMeetingToRecyclerView(sqlDatabaseManager.getMeetingDatabaseManager().getAllMeetingsOfCurrentGroup());
     }
 }

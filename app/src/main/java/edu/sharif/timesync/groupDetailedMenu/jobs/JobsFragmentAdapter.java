@@ -18,7 +18,7 @@ public class JobsFragmentAdapter extends RecyclerView.Adapter<JobsFragmentViewHo
     private boolean isLeader;
 
 
-    public JobsFragmentAdapter(Context context, List<JobListItem> items, boolean isLeader, SelectJobsListItemInterface listener) {
+    public JobsFragmentAdapter(Context context, List<JobListItem> items, boolean isLeader,List<String> assignedUsers, SelectJobsListItemInterface listener) {
         this.context = context;
         this.items = items;
         this.listener = listener;

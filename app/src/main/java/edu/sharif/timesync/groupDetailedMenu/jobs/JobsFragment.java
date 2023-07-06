@@ -76,13 +76,12 @@ public class JobsFragment extends Fragment implements SelectJobsListItemInterfac
 
 
     public void addJobToRecyclerView(List<String> jobList) {
-        // TODO!
         List<JobListItem> items = new ArrayList<>();
         for (String job : jobList) {
             items.add(new JobListItem(job));
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new JobsFragmentAdapter(getContext(), items, isLeader, this);
+        adapter = new JobsFragmentAdapter(getContext(), items, isLeader, null,this);
         recyclerView.setAdapter(adapter);
     }
 
