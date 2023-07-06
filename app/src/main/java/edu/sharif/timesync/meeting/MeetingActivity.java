@@ -17,6 +17,7 @@ import java.util.List;
 import edu.sharif.timesync.R;
 import edu.sharif.timesync.database.MeetingCandidateTimeDatabaseManager;
 import edu.sharif.timesync.database.MeetingChoiceDatabaseManager;
+import edu.sharif.timesync.database.MeetingDatabaseManager;
 import edu.sharif.timesync.database.SQLDatabaseManager;
 import edu.sharif.timesync.database.UserDatabaseManager;
 import edu.sharif.timesync.entity.Meeting;
@@ -104,6 +105,7 @@ public class MeetingActivity extends AppCompatActivity {
             }
 
             submitButton = (Button) findViewById(R.id.submitMeetingButton);
+            MeetingDatabaseManager meetingDatabaseManager = MeetingDatabaseManager.instanceOfMeetingDatabaseManager(sqlDatabaseManager);
 
             submitButton.setOnClickListener(new View.OnClickListener() {
                 final String loggedInUsername = userDatabaseManager.getLoggedInUser().getUsername();
@@ -115,6 +117,7 @@ public class MeetingActivity extends AppCompatActivity {
                     } else{
                         meetingChoiceDatabaseManager.addAllChoiceTimes(meetingName, loggedInUsername, selectedChoices);
                     }
+                    meetingDatabaseManager.finalizeMeetingIfFinalized(meetingName);
                     finish();
                 }
             });
