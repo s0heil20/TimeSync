@@ -73,7 +73,6 @@ public class GroupListMenuActivity extends AppCompatActivity implements SelectGr
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "CLICKED ON FLOAT!", Toast.LENGTH_SHORT).show();
                 GroupNameDialog dialog = new GroupNameDialog();
                 dialog.show(getSupportFragmentManager(), "create dialog!");
             }
@@ -109,8 +108,9 @@ public class GroupListMenuActivity extends AppCompatActivity implements SelectGr
             Toast.makeText(getBaseContext(), groupName + " ALREADY EXISTS", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getBaseContext(), "ADDED " + groupName, Toast.LENGTH_SHORT).show();
+            addGroupToRecyclerView(sqlDatabaseManager.getGroupUserMappingDatabaseManager().getGroupNamesOfLoggedInUser());
         }
 
-        addGroupToRecyclerView(sqlDatabaseManager.getGroupUserMappingDatabaseManager().getGroupNamesOfLoggedInUser());
+
     }
 }
