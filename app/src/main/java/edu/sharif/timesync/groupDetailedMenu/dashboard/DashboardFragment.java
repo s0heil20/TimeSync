@@ -33,6 +33,7 @@ import edu.sharif.timesync.database.SQLDatabaseManager;
 public class DashboardFragment extends Fragment {
 
     private View myView;
+    private boolean isLeader;
 
     private ViewFlipper barChartFlipper;
     private HorizontalBarChart barChart;
@@ -52,6 +53,8 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.myView = view;
+        isLeader = SQLDatabaseManager.instanceOfDatabase(getContext()).getGroupUserMappingDatabaseManager().getCurrentGroup().getAdminUsername().equals(SQLDatabaseManager.instanceOfDatabase(getContext()).getUserDatabaseManager().getLoggedInUser().getUsername());
+
 
         barChartFlipper = view.findViewById(R.id.barChartFlipper);
 
@@ -183,7 +186,12 @@ public class DashboardFragment extends Fragment {
         }
 
         barArrayList.clear();
-        ArrayList<String> jobs = sqlDatabaseManager.getJobDatabaseManager().getCurrentUsersJobs();
+        ArrayList<String> jobs;
+        if (isLeader) {
+            jobs = sqlDatabaseManager.getGroupJobMappingDatabaseManager().getJobsOfCurrentGroup();
+        } else {
+            jobs = sqlDatabaseManager.getJobDatabaseManager().getCurrentUsersJobs();
+        }
         int i = 0;
         for (String job : jobs) {
             barArrayList.add(new BarEntry(i, hashMap.get(job) == null ? Integer.valueOf(0) : hashMap.get(job)));
